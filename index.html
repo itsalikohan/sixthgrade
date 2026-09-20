@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>کلاس ششم - ریاضی</title>
+    <title>بازی مرتب کردن کلمات</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap');
 
@@ -38,7 +38,6 @@
             border: 8px solid #333;
         }
 
-        /* Screen Styles */
         .screen {
             display: none;
             flex-direction: column;
@@ -66,7 +65,7 @@
 
         h1 {
             color: #d32f2f;
-            font-size: 2.2rem;
+            font-size: 2rem;
             margin-bottom: 20px;
             text-shadow: 1px 1px 5px rgba(255,255,255,0.8);
         }
@@ -91,24 +90,11 @@
             box-shadow: 0 12px 20px rgba(0,0,0,0.3);
         }
 
-        .btn:active {
-            transform: translateY(1px);
-        }
+        .account-btn { background: linear-gradient(45deg, #8e2de2, #4a00e0); }
+        .settings-btn { background: linear-gradient(45deg, #00c6ff, #0072ff); }
+        .exit-btn { background: linear-gradient(45deg, #cb2d3e, #ef473a); }
 
-        .account-btn {
-            background: linear-gradient(45deg, #8e2de2, #4a00e0);
-        }
-
-        .settings-btn {
-            background: linear-gradient(45deg, #00c6ff, #0072ff);
-        }
-
-        .exit-btn {
-            background: linear-gradient(45deg, #cb2d3e, #ef473a);
-        }
-
-        /* Account Box */
-        .account-box {
+        .account-box, .settings-box, .quiz-box {
             background: white;
             padding: 20px;
             border-radius: 20px;
@@ -135,11 +121,6 @@
             font-size: 1rem;
             font-family: 'Vazirmatn', sans-serif;
             outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .account-box input:focus, .account-box select:focus {
-            border-color: #2196F3;
         }
 
         .profile-card {
@@ -147,24 +128,7 @@
             padding: 15px;
             border-radius: 15px;
             border: 2px solid #2196F3;
-            margin-bottom: 10px;
             text-align: center;
-        }
-
-        /* Settings Box */
-        .settings-box {
-            background: white;
-            padding: 20px;
-            border-radius: 20px;
-            width: 100%;
-            color: #333;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            text-align: right;
-            max-height: 480px;
-            overflow-y: auto;
         }
 
         .setting-item {
@@ -173,7 +137,6 @@
             align-items: center;
             font-size: 1rem;
             font-weight: bold;
-            color: #333;
         }
 
         .danger-action-btn {
@@ -187,11 +150,6 @@
             cursor: pointer;
             width: 100%;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            transition: transform 0.2s;
-        }
-
-        .danger-action-btn:hover {
-            transform: scale(1.02);
         }
 
         .switch {
@@ -200,233 +158,166 @@
             width: 50px;
             height: 26px;
         }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
+        .switch input { opacity: 0; width: 0; height: 0; }
         .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc; transition: .4s; border-radius: 34px;
         }
-
         .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
+            position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px;
+            background-color: white; transition: .4s; border-radius: 50%;
         }
+        input:checked + .slider { background-color: #2196F3; }
+        input:checked + .slider:before { transform: translateX(24px); }
 
-        input:checked + .slider {
-            background-color: #2196F3;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(24px);
-        }
-
-        /* Subject Grid */
         .subjects-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 15px;
             width: 100%;
         }
 
         .subject-btn {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.8);
             border: 2px solid #ff9800;
             color: #d32f2f;
             padding: 20px;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             font-weight: bold;
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
+        .subject-btn:hover { background: white; transform: scale(1.05); }
 
-        .subject-btn:hover {
-            background: white;
-            transform: scale(1.05);
-        }
-
-        /* Stages Grid */
-        .stages-container {
-            width: 100%;
-            margin-bottom: 50px;
-        }
-
+        .stages-container { width: 100%; margin-bottom: 10px; }
+        
         .stages-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            gap: 12px;
             width: 100%;
-            max-width: 320px;
-            margin: 0 auto;
+            max-width: 350px;
+            margin: 0 auto 15px auto;
+            direction: rtl;
         }
 
         .stage-card {
-            background: #2196f3;
-            border: 2px solid #fff;
-            border-radius: 12px;
-            padding: 12px 6px;
+            background: #4caf50;
+            border: 3px solid #fff;
+            border-radius: 18px;
+            padding: 15px 5px;
             color: white;
             font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-            transition: all 0.2s;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: transform 0.2s;
         }
-
-        .stage-card:hover {
-            transform: scale(1.05);
-            background: #1976d2;
-        }
-
+        .stage-card:hover { transform: scale(1.03); }
+        
         .stage-card.locked {
             background: #9e9e9e;
-            border: 2px dashed #e0e0e0;
+            border: 3px dashed #e0e0e0;
             cursor: not-allowed;
-            opacity: 0.8;
         }
-
-        .stage-card.locked:hover {
-            transform: none;
-            background: #9e9e9e;
-        }
-
+        
         .stars {
-            font-size: 0.6rem;
+            font-size: 0.75rem;
             color: #ffeb3b;
-            margin-top: 3px;
-            letter-spacing: 0.5px;
-            min-height: 12px;
+            margin-top: 4px;
+            min-height: 15px;
+            letter-spacing: 1px;
         }
 
-        /* Pagination Controls */
         .pagination-box {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 15px;
-            padding: 0 10px;
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto;
+            padding: 0 5px;
         }
 
         .page-nav-btn {
-            background: #ff9800;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
+            background: #ffa726; 
+            color: white; 
+            border: none; 
+            padding: 10px 22px;
+            border-radius: 30px; 
+            font-weight: bold; 
+            font-size: 0.95rem;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: transform 0.2s;
         }
-
-        .page-nav-btn:hover {
-            transform: scale(1.08);
-            background: #f57c00;
-        }
-
-        .page-nav-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
+        .page-nav-btn:disabled { background: #bdbdbd; cursor: not-allowed; box-shadow: none; }
+        
         .page-indicator {
-            font-weight: bold;
-            color: #333;
-            direction: ltr;
-            unicode-bidi: embed;
+            font-weight: 900;
+            color: #3b2c00;
+            font-size: 1.1rem;
         }
 
         .back-icon-btn {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            background: #f44336;
-            color: white;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s;
-            z-index: 10;
+            position: absolute; bottom: 20px; left: 20px; background: #f44336;
+            color: white; border: none; width: 45px; height: 45px; border-radius: 50%;
+            font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
-        .back-icon-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .quiz-box {
-            background: white;
-            padding: 20px;
-            border-radius: 20px;
-            width: 100%;
-            color: #333;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        .quiz-box h3 {
-            margin-bottom: 12px;
+        .quiz-box h3 { margin-bottom: 12px; color: #388e3c; font-size: 1rem; line-height: 1.5; }
+        
+        .scrambled-word {
+            font-size: 1.8rem;
+            font-weight: 900;
             color: #d32f2f;
-            font-size: 1.1rem;
-            line-height: 1.5;
+            background: #ffe082;
+            padding: 10px;
+            border-radius: 12px;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+            border: 2px dashed #f57c00;
         }
 
-        .option-btn {
-            background: linear-gradient(45deg, #2196f3, #00bcd4);
+        .quiz-box input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #4caf50;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-family: 'Vazirmatn', sans-serif;
+            text-align: center;
+            outline: none;
+            margin-bottom: 10px;
+        }
+
+        .submit-word-btn {
+            background: linear-gradient(45deg, #4caf50, #8bc34a);
             color: white;
             border: none;
-            padding: 10px;
+            padding: 12px;
             font-size: 1rem;
             font-weight: bold;
             border-radius: 12px;
             cursor: pointer;
             width: 100%;
-            margin: 6px 0;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            transition: all 0.2s;
         }
-
-        .option-btn:hover {
-            transform: translateY(-2px);
-            background: linear-gradient(45deg, #1976d2, #00acc1);
-        }
+        .submit-word-btn:hover { background: linear-gradient(45deg, #388e3c, #7cb342); }
     </style>
 </head>
 <body>
 
     <div class="phone-frame">
         
-        <!-- صفحه اول: شروع بازی -->
+        <!-- صفحه اول -->
         <div id="screen-home" class="screen active">
-            <h1>🎒 ریاضی ششم</h1>
+            <h1>🧩 کلمات به‌هم‌ریخته</h1>
             <div id="welcome-msg" style="font-weight: bold; color: #333; margin-bottom: 10px; font-size: 1.1rem;"></div>
             <button class="btn" onclick="playSound(); goToScreen('screen-subjects')">شروع بازی 🔔</button>
             <button class="btn account-btn" onclick="playSound(); goToScreen('screen-account')">اکانت 👤</button>
@@ -438,17 +329,15 @@
         <div id="screen-account" class="screen">
             <h1>👤 تنظیمات اکانت</h1>
             <div class="account-box">
-                <div class="profile-card" id="profile-display">
-                    <!-- اطلاعات اکانت اینجا نمایش داده می‌شود -->
-                </div>
+                <div class="profile-card" id="profile-display"></div>
                 <label>نام و نام خانوادگی:</label>
-                <input type="text" id="user-name-input" placeholder="مثلا: آقا رضا">
+                <input type="text" id="user-name-input" placeholder="مثلا: علی">
                 
-                <label>کلاس:</label>
+                <label>پایه تحصیلی:</label>
                 <select id="user-class-select">
-                    <option value="ششم ۱">ششم ۱</option>
-                    <option value="ششم ۲">ششم ۲</option>
-                    <option value="ششم ۳">ششم ۳</option>
+                    <option value="شیشم ۱">شیشم ۱</option>
+                    <option value="نهم ۲">شیشم ۲</option>
+                    <option value="شیشم ۱">شیشم ۱</option>
                 </select>
 
                 <button class="btn" style="width: 100%; margin-top: 5px; font-size: 1.1rem; padding: 10px;" onclick="playSound(); saveAccountInfo()">ذخیره اطلاعات ✅</button>
@@ -468,66 +357,47 @@
                     </label>
                 </div>
                 <hr style="border: 0; border-top: 1px solid #eee;">
-                
                 <div>
-                    <div style="font-size: 0.9rem; font-weight: bold; color: #d32f2f; margin-bottom: 5px;">مدیریت داده‌ها و بازی:</div>
                     <button class="danger-action-btn" onclick="playSound(); resetProgress()">از دست دادن پیشرفت‌ها ⚠️</button>
                 </div>
-
                 <div>
                     <button class="danger-action-btn" onclick="playSound(); resetAccount()">از دست دادن اکانت ⚠️</button>
                 </div>
-
-                <div style="font-size: 0.85rem; color: #666; text-align: center; margin-top: 5px;">
-                    نسخه بازی: ۱.۲.۱
-                </div>
             </div>
             <button class="back-icon-btn" onclick="playSound(); goToScreen('screen-home')">⬅</button>
         </div>
 
-        <!-- صفحه دوم: انتخاب کتاب درسی -->
+        <!-- صفحه انتخاب بخش -->
         <div id="screen-subjects" class="screen">
-            <h1>📚 انتخاب درس</h1>
-            
+            <h1>📚 انتخاب بخش بازی</h1>
             <div class="subjects-grid">
-                <button class="subject-btn" onclick="playSound(); openStages('ریاضی')">📐 ریاضی</button>
-                <button class="subject-btn" onclick="playSound(); openStages('علوم')">🧪 علوم</button>
-                <button class="subject-btn" onclick="playSound(); openStages('فارسی')">📖 فارسی</button>
-                <button class="subject-btn" onclick="playSound(); openStages('نگارش')">✍️ نگارش</button>
-                <button class="subject-btn" onclick="playSound(); openStages('هدیه')">🎁 هدیه</button>
-                <button class="subject-btn" onclick="playSound(); openStages('مطالعات')">🌍 مطالعات</button>
+                <button class="subject-btn" onclick="playSound(); openStages('کلمات به‌هم‌ریخته')">🎯 ورود به مراحل کلمات</button>
             </div>
-
             <button class="back-icon-btn" onclick="playSound(); goToScreen('screen-home')">⬅</button>
         </div>
 
-        <!-- صفحه سوم: مراحل -->
+        <!-- صفحه مراحل -->
         <div id="screen-stages" class="screen">
-            <h1 id="stages-title-text" style="font-size: 1.4rem; margin-bottom: 10px;">مراحل درس</h1>
-            
-            <div class="stages-container" style="margin-top: 8px;">
-                <div class="stages-grid" id="stages-grid-box">
-                    <!-- مراحل به صورت پویا بارگذاری می‌شوند -->
-                </div>
-                
+            <h1 id="stages-title-text" style="font-size: 1.5rem; margin-bottom: 15px;">مراحل بازی</h1>
+            <div class="stages-container">
+                <div class="stages-grid" id="stages-grid-box"></div>
                 <div class="pagination-box">
                     <button class="page-nav-btn" id="next-page-btn" onclick="playSound(); changeStagePage(1)">بعدی ⬅</button>
-                    <span id="page-indicator" class="page-indicator">صفحه ۱ از ۲</span>
+                    <span id="page-indicator" class="page-indicator">صفحه ۱ از ۳۴</span>
                     <button class="page-nav-btn" id="prev-page-btn" onclick="playSound(); changeStagePage(-1)">➡ قبلی</button>
                 </div>
             </div>
-
             <button class="back-icon-btn" onclick="playSound(); goToScreen('screen-subjects')">⬅</button>
         </div>
 
-        <!-- صفحه چهارم: سوالات کوئیز -->
+        <!-- صفحه حل کلمه -->
         <div id="screen-quiz" class="screen">
-            <h1 id="quiz-title" style="font-size: 1.3rem; margin-bottom: 10px;">سوالات</h1>
+            <h1 id="quiz-title" style="font-size: 1.1rem; margin-bottom: 10px;">مرحله</h1>
             <div class="quiz-box">
-                <h3 id="question-text">متن سوال اینجا قرار می‌گیرد...</h3>
-                <div id="options-container">
-                    <!-- گزینه‌ها به صورت پویا لود می‌شوند -->
-                </div>
+                <h3>حروف به‌هم‌ریخته زیر را مرتب کنید:</h3>
+                <div id="scrambled-display" class="scrambled-word"></div>
+                <input type="text" id="user-word-input" placeholder="کلمه درست را اینجا بنویسید..." autocomplete="off">
+                <button class="submit-word-btn" onclick="playSound(); checkWordAnswer()">بررسی پاسخ ✅</button>
             </div>
             <button class="back-icon-btn" onclick="playSound(); goToScreen('screen-stages')">⬅</button>
         </div>
@@ -536,10 +406,7 @@
 
     <script>
         let soundEnabled = true;
-
-        function toggleSound() {
-            soundEnabled = document.getElementById('sound-toggle').checked;
-        }
+        function toggleSound() { soundEnabled = document.getElementById('sound-toggle').checked; }
 
         function playSound() {
             if (!soundEnabled) return;
@@ -547,129 +414,118 @@
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 const oscillator = audioCtx.createOscillator();
                 const gainNode = audioCtx.createGain();
-                
                 oscillator.type = 'sine';
                 oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
                 oscillator.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.15);
-                
                 gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
                 gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
-                
                 oscillator.connect(gainNode);
                 gainNode.connect(audioCtx.destination);
-                
                 oscillator.start();
                 oscillator.stop(audioCtx.currentTime + 0.15);
-            } catch (e) {
-                console.log("Audio not supported");
-            }
+            } catch (e) {}
         }
 
         function goToScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(screen => {
-                screen.classList.remove('active');
-            });
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
         }
 
-        // اطلاعات اکانت و پیش‌فرض «آقا رضا» و «ششم ۲»
-        let userName = localStorage.getItem('user_name') || 'آقا رضا';
-        let userClass = localStorage.getItem('user_class') || 'ششم ۲';
+        let userName = localStorage.getItem('user_name') || 'علی';
+        let userClass = localStorage.getItem('user_class') || 'شیشم ۱';
 
         function updateAccountUI() {
             document.getElementById('user-name-input').value = userName;
             document.getElementById('user-class-select').value = userClass;
-            document.getElementById('profile-display').innerHTML = `
-                <b>${userName}</b><br>
-                <span style="color: #1976d2; font-weight: bold;">کلاس ${userClass}</span>
-            `;
-            // حذف نام کلاس از متن خوش‌آمدگویی صفحه اصلی
+            document.getElementById('profile-display').innerHTML = `<b>${userName}</b><br><span style="color: #1976d2;">پایه ${userClass}</span>`;
             document.getElementById('welcome-msg').innerText = `سلام، ${userName} 👋`;
         }
 
         function saveAccountInfo() {
-            const nameInput = document.getElementById('user-name-input').value.trim();
-            const classSelect = document.getElementById('user-class-select').value;
-
-            if (nameInput === '') {
-                alert('لطفاً نام خود را وارد کنید!');
-                return;
-            }
-
-            userName = nameInput;
-            userClass = classSelect;
-
+            userName = document.getElementById('user-name-input').value.trim() || 'علی';
+            userClass = document.getElementById('user-class-select').value;
             localStorage.setItem('user_name', userName);
             localStorage.setItem('user_class', userClass);
-
             updateAccountUI();
-            alert('اطلاعات اکانت با موفقیت ذخیره شد! ✅');
+            alert('اطلاعات اکانت ذخیره شد! ✅');
             goToScreen('screen-home');
         }
-
-        // لود اولیه اکانت
         updateAccountUI();
 
-        let currentSubject = '';
         let currentStagePage = 1;
-        const stagesPerPage = 10;
-        const totalStages = 20;
+        const stagesPerPage = 6;
+        
+        // لیست کامل ۲۰۰ کلمه‌ای که فرستادی
+        const rawWords = [
+            "فنجان", "پنیر", "مداد", "موز", "صندلی", "کتاب", "طناب", "قاشق", "ابریشم", "سبد", 
+            "جغد", "انگور", "شالگردن", "گیتار", "چتر", "پیاز", "تمبر", "شکلات", "صخره", "نمک", 
+            "پازل", "انار", "فرمان", "برنج", "لیوان", "هلو", "نخ", "گردو", "تلسکوپ", "پارچ", 
+            "پاکت", "زعفران", "کیف", "جعبه", "عینک", "فلفل", "دکمه", "جو", "مگنت", "کره", 
+            "قایق", "درخت", "ستاره", "توفان", "زنجیر", "پتو", "پاک‌کن", "چراغ", "سیمان", "پیانو", 
+            "فنجان", "طبل", "نردبان", "میکروفون", "نقاشی", "مجله", "بشقاب", "مربا", "ساعت", "خیار", 
+            "رادیو", "سیر", "پور", "دارچین", "فیلتر", "لیمو", "قفل", "پرتقال", "چرخ‌دنده", "هندوانه", 
+            "بطری", "شلیل", "سوزن", "توت‌فرنگی", "دوربین", "فندق", "قطب‌نما", "کیوی", "پوشه", "خرما", 
+            "چسب", "گندم", "اسکناس", "لوبیا", "کفش", "لپه", "گردنبند", "سالاد", "زیپ", "قوری", 
+            "بادبادک", "اقیانوس", "مقوا", "آجر", "جغرافیا", "فرش", "باطری", "پرده", "کالسکه", "شیپور", 
+            "کویر", "روزنامه", "آکواریوم", "بیسکویت", "خورشید", "عسل", "بالشت", "گوجه", "بادام", "زردچوبه", 
+            "پرچم", "زنجبیل", "گیره", "انبه", "آفتابه", "خربزه", "بشکه", "گیلاس", "قیچی", "آلبالو", 
+            "شمع", "بادام‌زمینی", "تلویزیون", "نارگیل", "میکروسکوپ", "انجیر", "نقشه", "کشمش", "دفترچه", "عدس", 
+            "منگنه", "نخود", "کارت", "ماش", "چمدان", "رشته", "کلاه", "سوپ", "ساعت", "پیش‌دستی", 
+            "دستبند", "دیس", "گوشواره", "چنگال", "کمربند", "ملاقه", "روبان", "سینی", "تور", "قندان", 
+            "صدف", "استکان", "بادبزن", "کیسه", "قاب", "کارتن", "باغچه", "صندوقچه", "آبپاش", "رمز", 
+            "فرغون", "بانک", "چکش", "ترازو", "پنجره", "آمپلی‌فایر", "جاکلیدی", "تقویم", "صابون", "سیب‌زمینی", 
+            "یخچال", "آبنبات", "صخره", "کمانچه", "خودکار", "گونی", "گاوصندوق", "کارت‌بانکی", "دستگاه‌کارت‌خوان", "خودپرداز", 
+            "اسکناس‌شمار", "کلید", "صندوق", "سبد", "کفگیر", "کارد", "کاسه", "ماکارونی", "انار", "آناناس", 
+            "فندق", "توت‌فرنگی", "آلبالو", "هلو", "سیر", "فلفل", "پنیر", "شکلات", "کتاب", "صندلی"
+        ];
+
+        const totalStages = rawWords.length; // ۲۰۰ مرحله
         const totalPages = Math.ceil(totalStages / stagesPerPage);
 
-        // بازیابی خودکار اطلاعات پیشرفت از حافظه مرورگر
-        let unlockedStage = localStorage.getItem('math_unlockedStage') ? parseInt(localStorage.getItem('math_unlockedStage')) : 1;
-        let stageStars = localStorage.getItem('math_stageStars') ? JSON.parse(localStorage.getItem('math_stageStars')) : {};
-
-        function saveGameData() {
-            localStorage.setItem('math_unlockedStage', unlockedStage);
-            localStorage.setItem('math_stageStars', JSON.stringify(stageStars));
+        // تابع برای به‌هم ریختن حروف یک کلمه
+        function scrambleWord(word) {
+            let arr = word.split('');
+            let scrambled;
+            do {
+                for (let i = arr.length - 1; i > 0; i--) {
+                    let j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                scrambled = arr.join(' ');
+            } while (scrambled === word && word.length > 1);
+            return scrambled;
         }
 
+        let unlockedStage = localStorage.getItem('wordgame_unlockedStage') ? parseInt(localStorage.getItem('wordgame_unlockedStage')) : 1;
+        let stageStars = localStorage.getItem('wordgame_stageStars') ? JSON.parse(localStorage.getItem('wordgame_stageStars')) : {};
+
+        let activeStageNum = 1;
+
         function resetProgress() {
-            if (confirm("آیا مطمئنید می‌خواهید تمام پیشرفت‌ها و ستاره‌های بازی پاک شوند؟")) {
-                localStorage.removeItem('math_unlockedStage');
-                localStorage.removeItem('math_stageStars');
+            if (confirm("آیا مطمئنید می‌خواهید پیشرفت‌ها را پاک کنید؟")) {
+                localStorage.removeItem('wordgame_unlockedStage');
+                localStorage.removeItem('wordgame_stageStars');
                 unlockedStage = 1;
                 stageStars = {};
-                alert("تمام پیشرفت‌ها با موفقیت ریست شد! 🔄");
+                renderStages();
+                alert("پیشرفت‌ها ریست شد! 🔄");
             }
         }
 
         function resetAccount() {
-            if (confirm("آیا مطمئنید می‌خواهید اکانت خود را پاک کنید؟ اطلاعات به حالت پیش‌فرض برمی‌گردد.")) {
+            if (confirm("آیا اکانت ریست شود؟")) {
                 localStorage.removeItem('user_name');
                 localStorage.removeItem('user_class');
-                userName = 'آقا رضا';
-                userClass = 'ششم ۲';
+                userName = 'علی';
+                userClass = 'نهم ۱';
                 updateAccountUI();
-                alert("اکانت شما ریست شد و به حالت اولیه برگشت! 🔄");
+                alert("اکانت ریست شد!");
             }
         }
 
-        // بانک سوالات ریاضی ششم
-        const mathQuestions = {
-            1: [
-                {
-                    q: "سوال ۱ از ۲: برای تولید ۱۰ عدد دوچرخه به چند عدد چرخ نیاز است؟ (هر دوچرخه ۲ چرخ دارد)",
-                    options: ["۱۵ عدد", "۲۰ عدد", "۲۵ عدد", "۳۰ عدد"],
-                    correct: 1
-                },
-                {
-                    q: "سوال ۲ از ۲: ۲۸ عدد چرخ برای تولید چند عدد دوچرخه مورد نیاز است؟",
-                    options: ["۱۲ دوچرخه", "۱۶ دوچرخه", "۱۴ دوچرخه", "۱۸ دوچرخه"],
-                    correct: 2
-                }
-            ]
-        };
-
-        let currentQuizStage = 1;
-        let currentSubQuestionIndex = 0;
-        let currentStageErrors = 0;
-
         function openStages(subjectName) {
-            currentSubject = subjectName;
             currentStagePage = 1;
-            document.getElementById('stages-title-text').innerText = 'درس ' + subjectName;
+            document.getElementById('stages-title-text').innerText = 'مراحل ' + subjectName;
             renderStages();
             goToScreen('screen-stages');
         }
@@ -678,35 +534,34 @@
             const gridBox = document.getElementById('stages-grid-box');
             gridBox.innerHTML = '';
             
-            const start = (currentStagePage - 1) * stagesPerPage + 1;
-            const end = Math.min(start + stagesPerPage - 1, totalStages);
-            
-            for (let i = start; i <= end; i++) {
+            const startIndex = (currentStagePage - 1) * stagesPerPage;
+            let pageStages = [];
+            for (let i = 0; i < stagesPerPage; i++) {
+                let sNum = startIndex + i + 1;
+                if (sNum <= totalStages) {
+                    pageStages.push(sNum);
+                }
+            }
+
+            pageStages.forEach(i => {
                 let isLocked = i > unlockedStage;
                 if (isLocked) {
                     gridBox.innerHTML += `
-                        <div class="stage-card locked" onclick="playSound(); alert('🔒 این مرحله قفل است! اول باید مراحل قبلی را تمام کنی.')">
-                            ${i}
+                        <div class="stage-card locked" onclick="playSound(); alert('🔒 این مرحله هنوز قفل است!')">
+                            مرحله ${i}
                             <div class="stars">🔒 قفل</div>
-                        </div>
-                    `;
+                        </div>`;
                 } else {
-                    let starsStr = '';
-                    if (stageStars[i] !== undefined) {
-                        starsStr = '⭐'.repeat(stageStars[i]);
-                    } else {
-                        starsStr = '';
-                    }
-
+                    let starsCount = stageStars[i] !== undefined ? stageStars[i] : 3;
+                    let starsStr = '⭐'.repeat(starsCount);
                     gridBox.innerHTML += `
                         <div class="stage-card" onclick="playSound(); startQuiz(${i})">
-                            ${i}
+                            مرحله ${i}
                             <div class="stars">${starsStr}</div>
-                        </div>
-                    `;
+                        </div>`;
                 }
-            }
-            
+            });
+
             document.getElementById('page-indicator').innerText = `صفحه ${currentStagePage} از ${totalPages}`;
             document.getElementById('prev-page-btn').disabled = (currentStagePage === 1);
             document.getElementById('next-page-btn').disabled = (currentStagePage === totalPages);
@@ -719,79 +574,44 @@
             renderStages();
         }
 
-        function startQuiz(stageNumber) {
-            currentQuizStage = stageNumber;
-            currentSubQuestionIndex = 0;
-            currentStageErrors = 0;
+        function startQuiz(stageNum) {
+            activeStageNum = stageNum;
+            let correctWord = rawWords[stageNum - 1];
+            let scrambled = scrambleWord(correctWord);
+
+            document.getElementById('quiz-title').innerText = `مرحله ${stageNum}`;
+            document.getElementById('scrambled-display').innerText = scrambled;
+            document.getElementById('user-word-input').value = '';
             
-            if (mathQuestions[stageNumber]) {
-                loadSubQuestion();
-                goToScreen('screen-quiz');
-            } else {
-                document.getElementById('quiz-title').innerText = currentSubject + ' - مرحله ' + stageNumber;
-                document.getElementById('question-text').innerText = 'سوالات این مرحله به زودی اضافه خواهند شد!';
-                document.getElementById('options-container').innerHTML = `
-                    <button class="option-btn" onclick="goToScreen('screen-stages')">بازگشت به مراحل</button>
-                `;
-                goToScreen('screen-quiz');
-            }
+            goToScreen('screen-quiz');
         }
 
-        function loadSubQuestion() {
-            const questionsList = mathQuestions[currentQuizStage];
-            const qData = questionsList[currentSubQuestionIndex];
-            
-            document.getElementById('quiz-title').innerText = `${currentSubject} - مرحله ${currentQuizStage} (سوال ${currentSubQuestionIndex + 1} از ${questionsList.length})`;
-            document.getElementById('question-text').innerText = qData.q;
-            
-            const optionsBox = document.getElementById('options-container');
-            optionsBox.innerHTML = '';
-            
-            qData.options.forEach((optText, index) => {
-                optionsBox.innerHTML += `
-                    <button class="option-btn" onclick="playSound(); checkAnswer(${index})">${optText}</button>
-                `;
-            });
-        }
+        function checkWordAnswer() {
+            let userGuess = document.getElementById('user-word-input').value.trim();
+            let correctWord = rawWords[activeStageNum - 1];
 
-        function checkAnswer(selectedIndex) {
-            const questionsList = mathQuestions[currentQuizStage];
-            const qData = questionsList[currentSubQuestionIndex];
-            
-            if (selectedIndex === qData.correct) {
-                alert('آفرین! درست بود 🎉');
+            if (userGuess === correctWord) {
+                // پاسخ درست: ۳ ستاره
+                alert('آفرین! پاسخ درست بود! 🎉 (۳ ستاره گرفتی)');
+                stageStars[activeStageNum] = 3;
             } else {
-                alert('❌ اشتباه بود!');
-                currentStageErrors++;
+                // پاسخ اشتباه: قانون ۱ ستاره و رفتن به مرحله بعد
+                alert(`پاسخ اشتباه بود! ❌ کلمه درست «${correctWord}» بود. (اما عبور کردی و ۱ ستاره گرفتی)`);
+                stageStars[activeStageNum] = 1;
             }
 
-            currentSubQuestionIndex++;
-            if (currentSubQuestionIndex < questionsList.length) {
-                loadSubQuestion();
-            } else {
-                let earnedStars = Math.max(1, 3 - currentStageErrors);
-                
-                if (stageStars[currentQuizStage] === undefined || earnedStars > stageStars[currentQuizStage]) {
-                    stageStars[currentQuizStage] = earnedStars;
-                }
-
-                alert(`🎉 تبریک! مرحله ${currentQuizStage} تمام شد. (${earnedStars} ستاره گرفتی)`);
-                
-                if (currentQuizStage >= unlockedStage && currentQuizStage < totalStages) {
-                    unlockedStage = currentQuizStage + 1;
-                }
-                
-                saveGameData();
-                
-                renderStages();
-                goToScreen('screen-stages');
+            if (activeStageNum >= unlockedStage) {
+                unlockedStage = activeStageNum + 1;
             }
+            localStorage.setItem('wordgame_unlockedStage', unlockedStage);
+            localStorage.setItem('wordgame_stageStars', JSON.stringify(stageStars));
+            goToScreen('screen-stages');
+            renderStages();
         }
 
         function exitGame() {
-            if (confirm("آیا می‌خواهید از بازی خارج شوید؟")) {
-                document.body.innerHTML = "<div style='display:flex; justify-content:center; align-items:center; height:100vh; background:#111; color:#fff; font-size:2rem; font-family:Vazirmatn;'>از بازی خارج شدید. خدانگهدار! 👋</div>";
-            }
+            window.close();
+            alert("می‌توانید این تب را ببندید.");
         }
     </script>
 </body>
