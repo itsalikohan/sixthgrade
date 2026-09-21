@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بازی مرتب کردن کلمات</title>
+    <title>🧩 کلمات به‌ هم‌ ریخته</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap');
 
@@ -65,7 +65,7 @@
 
         h1 {
             color: #d32f2f;
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 20px;
             text-shadow: 1px 1px 5px rgba(255,255,255,0.8);
         }
@@ -92,6 +92,7 @@
 
         .account-btn { background: linear-gradient(45deg, #8e2de2, #4a00e0); }
         .settings-btn { background: linear-gradient(45deg, #00c6ff, #0072ff); }
+        .herobrine-btn { background: linear-gradient(45deg, #11998e, #38ef7d); }
         .exit-btn { background: linear-gradient(45deg, #cb2d3e, #ef473a); }
 
         /* استایل باکس من ربات نیستم */
@@ -401,11 +402,12 @@
 
         <!-- صفحه اول -->
         <div id="screen-home" class="screen">
-            <h1>🧩 کلمات به‌هم‌ریخته</h1>
+            <h1>🧩 کلمات به‌ هم‌ ریخته</h1>
             <div id="welcome-msg" style="font-weight: bold; color: #333; margin-bottom: 10px; font-size: 1.1rem;"></div>
             <button class="btn" onclick="goToScreen('screen-subjects')">شروع بازی 🔔</button>
             <button class="btn account-btn" onclick="goToScreen('screen-account')">اکانت 👤</button>
             <button class="btn settings-btn" onclick="goToScreen('screen-settings')">تنظیمات ⚙️</button>
+            <button class="btn herobrine-btn" onclick="openHerobrineCraft()">هیروبراین کرفت ⛏️</button>
             <button class="btn exit-btn" onclick="exitGame()">خروج 🚪</button>
         </div>
 
@@ -459,7 +461,7 @@
         <div id="screen-subjects" class="screen">
             <h1>📚 انتخاب بخش بازی</h1>
             <div class="subjects-grid">
-                <button class="subject-btn" onclick="openStages('کلمات به‌هم‌ریخته')">🎯 ورود به مراحل کلمات</button>
+                <button class="subject-btn" onclick="openStages('کلمات')">🎯 ورود به مراحل کلمات</button>
             </div>
             <button class="back-icon-btn" onclick="goToScreen('screen-home')">⬅</button>
         </div>
@@ -495,13 +497,11 @@
     <script>
         const bgMusic = document.getElementById('bg-music');
         
-        // بارگذاری تنظیمات صدا از localStorage (پیش‌فرض ولوم روی ۱ یعنی حداکثر)
         let soundEnabled = localStorage.getItem('wordgame_soundEnabled') !== null ? JSON.parse(localStorage.getItem('wordgame_soundEnabled')) : true;
         let soundVolume = localStorage.getItem('wordgame_soundVolume') ? parseFloat(localStorage.getItem('wordgame_soundVolume')) : 1;
         
         bgMusic.volume = soundVolume;
 
-        // تنظیم مقادیر دکمه‌ها و اسلایدرها هنگام لود صفحه
         window.addEventListener('DOMContentLoaded', () => {
             const soundToggleElem = document.getElementById('sound-toggle');
             const volumeSliderElem = document.getElementById('volume-slider');
@@ -509,7 +509,6 @@
             if (volumeSliderElem) volumeSliderElem.value = soundVolume;
         });
 
-        // تکرار آهنگ به محض به اتمام رسیدن
         bgMusic.addEventListener('ended', () => {
             if (soundEnabled) {
                 bgMusic.currentTime = 0;
@@ -517,7 +516,6 @@
             }
         });
 
-        // تابع تایید «من ربات نیستم» و شروع پخش آهنگ
         function verifyRobot(checkbox) {
             if (checkbox.checked) {
                 if (soundEnabled) {
@@ -553,6 +551,10 @@
             if (soundEnabled && bgMusic.paused && screenId !== 'screen-captcha') {
                 bgMusic.play().catch(e => {});
             }
+        }
+
+        function openHerobrineCraft() {
+            window.open('https://itsalikohan.github.io/herobrinecraft/', '_blank');
         }
 
         let userName = localStorage.getItem('user_name') || 'علی';
