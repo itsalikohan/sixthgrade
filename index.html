@@ -94,6 +94,59 @@
         .settings-btn { background: linear-gradient(45deg, #00c6ff, #0072ff); }
         .exit-btn { background: linear-gradient(45deg, #cb2d3e, #ef473a); }
 
+        /* استایل باکس من ربات نیستم */
+        .captcha-box {
+            background: white;
+            border: 2px solid #d3d3d3;
+            border-radius: 10px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 85%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .captcha-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .captcha-left input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .captcha-left span {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .captcha-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.65rem;
+            color: #555;
+        }
+
+        .captcha-logo div {
+            width: 24px;
+            height: 24px;
+            background: #4285F4;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
         .account-box, .settings-box, .quiz-box {
             background: white;
             padding: 20px;
@@ -133,10 +186,21 @@
 
         .setting-item {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            gap: 8px;
             font-size: 1rem;
             font-weight: bold;
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .setting-item input[type="range"] {
+            width: 100%;
+            cursor: pointer;
         }
 
         .danger-action-btn {
@@ -159,16 +223,16 @@
             height: 26px;
         }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider {
+        .slider-toggle {
             position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
             background-color: #ccc; transition: .4s; border-radius: 34px;
         }
-        .slider:before {
+        .slider-toggle:before {
             position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px;
             background-color: white; transition: .4s; border-radius: 50%;
         }
-        input:checked + .slider { background-color: #2196F3; }
-        input:checked + .slider:before { transform: translateX(24px); }
+        input:checked + .slider-toggle { background-color: #2196F3; }
+        input:checked + .slider-toggle:before { transform: translateX(24px); }
 
         .subjects-grid {
             display: grid;
@@ -313,16 +377,36 @@
 </head>
 <body>
 
+    <!-- موزیک پس‌زمینه با قابلیت تکرار خودکار -->
+    <audio id="bg-music" src="kki2.mp3" loop></audio>
+
     <div class="phone-frame">
         
+        <!-- صفحه بررسی ربات (اولین صفحه ورود) -->
+        <div id="screen-captcha" class="screen active">
+            <h1 style="font-size: 1.5rem; margin-bottom: 10px;">🔒 تایید ورود</h1>
+            <p style="color: #444; margin-bottom: 20px; font-size: 0.95rem;">برای ورود به بازی، لطفا تایید کنید:</p>
+            
+            <div class="captcha-box">
+                <div class="captcha-left">
+                    <input type="checkbox" id="robot-checkbox" onchange="verifyRobot(this)">
+                    <span>من ربات نیستم</span>
+                </div>
+                <div class="captcha-logo">
+                    <div>🤖</div>
+                    <span>reCAPTCHA</span>
+                </div>
+            </div>
+        </div>
+
         <!-- صفحه اول -->
-        <div id="screen-home" class="screen active">
+        <div id="screen-home" class="screen">
             <h1>🧩 کلمات به‌هم‌ریخته</h1>
             <div id="welcome-msg" style="font-weight: bold; color: #333; margin-bottom: 10px; font-size: 1.1rem;"></div>
-            <button class="btn" onclick="playSound(); goToScreen('screen-subjects')">شروع بازی 🔔</button>
-            <button class="btn account-btn" onclick="playSound(); goToScreen('screen-account')">اکانت 👤</button>
-            <button class="btn settings-btn" onclick="playSound(); goToScreen('screen-settings')">تنظیمات ⚙️</button>
-            <button class="btn exit-btn" onclick="playSound(); exitGame()">خروج 🚪</button>
+            <button class="btn" onclick="goToScreen('screen-subjects')">شروع بازی 🔔</button>
+            <button class="btn account-btn" onclick="goToScreen('screen-account')">اکانت 👤</button>
+            <button class="btn settings-btn" onclick="goToScreen('screen-settings')">تنظیمات ⚙️</button>
+            <button class="btn exit-btn" onclick="exitGame()">خروج 🚪</button>
         </div>
 
         <!-- صفحه اکانت -->
@@ -340,40 +424,44 @@
                     <option value="ششم ۱">ششم ۱</option>
                 </select>
 
-                <button class="btn" style="width: 100%; margin-top: 5px; font-size: 1.1rem; padding: 10px;" onclick="playSound(); saveAccountInfo()">ذخیره اطلاعات ✅</button>
+                <button class="btn" style="width: 100%; margin-top: 5px; font-size: 1.1rem; padding: 10px;" onclick="saveAccountInfo()">ذخیره اطلاعات ✅</button>
             </div>
-            <button class="back-icon-btn" onclick="playSound(); goToScreen('screen-home')">⬅</button>
+            <button class="back-icon-btn" onclick="goToScreen('screen-home')">⬅</button>
         </div>
 
         <!-- صفحه تنظیمات -->
         <div id="screen-settings" class="screen">
             <h1>⚙️ تنظیمات</h1>
             <div class="settings-box">
-                <div class="setting-item">
-                    <span>پخش صدا 🔊</span>
+                <div class="setting-row">
+                    <span>پخش موزیک 🔊</span>
                     <label class="switch">
                         <input type="checkbox" id="sound-toggle" checked onchange="toggleSound()">
-                        <span class="slider"></span>
+                        <span class="slider-toggle"></span>
                     </label>
+                </div>
+                <div class="setting-item">
+                    <span>تنظیم بلندی صدا (ولوم) 🎚️</span>
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="1" oninput="changeVolume()">
                 </div>
                 <hr style="border: 0; border-top: 1px solid #eee;">
                 <div>
-                    <button class="danger-action-btn" onclick="playSound(); resetProgress()">از دست دادن پیشرفت‌ها ⚠️</button>
+                    <button class="danger-action-btn" onclick="resetProgress()">از دست دادن پیشرفت‌ها ⚠️</button>
                 </div>
                 <div>
-                    <button class="danger-action-btn" onclick="playSound(); resetAccount()">از دست دادن اکانت ⚠️</button>
+                    <button class="danger-action-btn" onclick="resetAccount()">از دست دادن اکانت ⚠️</button>
                 </div>
             </div>
-            <button class="back-icon-btn" onclick="playSound(); goToScreen('screen-home')">⬅</button>
+            <button class="back-icon-btn" onclick="goToScreen('screen-home')">⬅</button>
         </div>
 
         <!-- صفحه انتخاب بخش -->
         <div id="screen-subjects" class="screen">
             <h1>📚 انتخاب بخش بازی</h1>
             <div class="subjects-grid">
-                <button class="subject-btn" onclick="playSound(); openStages('کلمات به‌هم‌ریخته')">🎯 ورود به مراحل کلمات</button>
+                <button class="subject-btn" onclick="openStages('کلمات به‌هم‌ریخته')">🎯 ورود به مراحل کلمات</button>
             </div>
-            <button class="back-icon-btn" onclick="playSound(); goToScreen('screen-home')">⬅</button>
+            <button class="back-icon-btn" onclick="goToScreen('screen-home')">⬅</button>
         </div>
 
         <!-- صفحه مراحل -->
@@ -382,12 +470,12 @@
             <div class="stages-container">
                 <div class="stages-grid" id="stages-grid-box"></div>
                 <div class="pagination-box">
-                    <button class="page-nav-btn" id="next-page-btn" onclick="playSound(); changeStagePage(1)">بعدی ⬅</button>
+                    <button class="page-nav-btn" id="next-page-btn" onclick="changeStagePage(1)">بعدی ⬅</button>
                     <span id="page-indicator" class="page-indicator">صفحه ۱</span>
-                    <button class="page-nav-btn" id="prev-page-btn" onclick="playSound(); changeStagePage(-1)">➡ قبلی</button>
+                    <button class="page-nav-btn" id="prev-page-btn" onclick="changeStagePage(-1)">➡ قبلی</button>
                 </div>
             </div>
-            <button class="back-icon-btn" onclick="playSound(); goToScreen('screen-subjects')">⬅</button>
+            <button class="back-icon-btn" onclick="goToScreen('screen-subjects')">⬅</button>
         </div>
 
         <!-- صفحه حل کلمه -->
@@ -397,38 +485,74 @@
                 <h3>حروف به‌هم‌ریخته زیر را مرتب کنید:</h3>
                 <div id="scrambled-display" class="scrambled-word"></div>
                 <input type="text" id="user-word-input" placeholder="کلمه درست را اینجا بنویسید..." autocomplete="off">
-                <button class="submit-word-btn" onclick="playSound(); checkWordAnswer()">بررسی پاسخ ✅</button>
+                <button class="submit-word-btn" onclick="checkWordAnswer()">بررسی پاسخ ✅</button>
             </div>
-            <button class="back-icon-btn" onclick="playSound(); goToScreen('screen-stages')">⬅</button>
+            <button class="back-icon-btn" onclick="goToScreen('screen-stages')">⬅</button>
         </div>
 
     </div>
 
     <script>
-        let soundEnabled = true;
-        function toggleSound() { soundEnabled = document.getElementById('sound-toggle').checked; }
+        const bgMusic = document.getElementById('bg-music');
+        
+        // بارگذاری تنظیمات صدا از localStorage (پیش‌فرض ولوم روی ۱ یعنی حداکثر)
+        let soundEnabled = localStorage.getItem('wordgame_soundEnabled') !== null ? JSON.parse(localStorage.getItem('wordgame_soundEnabled')) : true;
+        let soundVolume = localStorage.getItem('wordgame_soundVolume') ? parseFloat(localStorage.getItem('wordgame_soundVolume')) : 1;
+        
+        bgMusic.volume = soundVolume;
 
-        function playSound() {
-            if (!soundEnabled) return;
-            try {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioCtx.createOscillator();
-                const gainNode = audioCtx.createGain();
-                oscillator.type = 'sine';
-                oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
-                oscillator.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.15);
-                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
-                oscillator.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                oscillator.start();
-                oscillator.stop(audioCtx.currentTime + 0.15);
-            } catch (e) {}
+        // تنظیم مقادیر دکمه‌ها و اسلایدرها هنگام لود صفحه
+        window.addEventListener('DOMContentLoaded', () => {
+            const soundToggleElem = document.getElementById('sound-toggle');
+            const volumeSliderElem = document.getElementById('volume-slider');
+            if (soundToggleElem) soundToggleElem.checked = soundEnabled;
+            if (volumeSliderElem) volumeSliderElem.value = soundVolume;
+        });
+
+        // تکرار آهنگ به محض به اتمام رسیدن
+        bgMusic.addEventListener('ended', () => {
+            if (soundEnabled) {
+                bgMusic.currentTime = 0;
+                bgMusic.play().catch(e => {});
+            }
+        });
+
+        // تابع تایید «من ربات نیستم» و شروع پخش آهنگ
+        function verifyRobot(checkbox) {
+            if (checkbox.checked) {
+                if (soundEnabled) {
+                    bgMusic.play().catch(e => {});
+                }
+                setTimeout(() => {
+                    goToScreen('screen-home');
+                }, 400);
+            }
+        }
+
+        function toggleSound() { 
+            soundEnabled = document.getElementById('sound-toggle').checked;
+            localStorage.setItem('wordgame_soundEnabled', soundEnabled);
+            
+            if (soundEnabled) {
+                bgMusic.play().catch(e => {});
+            } else {
+                bgMusic.pause();
+            }
+        }
+
+        function changeVolume() {
+            const vol = document.getElementById('volume-slider').value;
+            bgMusic.volume = vol;
+            localStorage.setItem('wordgame_soundVolume', vol);
         }
 
         function goToScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
+
+            if (soundEnabled && bgMusic.paused && screenId !== 'screen-captcha') {
+                bgMusic.play().catch(e => {});
+            }
         }
 
         let userName = localStorage.getItem('user_name') || 'علی';
@@ -452,10 +576,9 @@
         }
         updateAccountUI();
 
-        let currentStagePage = 1;
+        let currentStagePage = localStorage.getItem('wordgame_currentStagePage') ? parseInt(localStorage.getItem('wordgame_currentStagePage')) : 1;
         const stagesPerPage = 6;
         
-        // لیست کامل تمام کلمات (قبلی + جدید)
         const rawWords = [
             "فنجان", "پنیر", "مداد", "موز", "صندلی", "کتاب", "طناب", "قاشق", "ابریشم", "سبد", 
             "جغد", "انگور", "شالگردن", "گیتار", "چتر", "پیاز", "تمبر", "شکلات", "صخره", "نمک", 
@@ -476,7 +599,6 @@
             "ترازو", "پنجره", "آمپلی‌فایر", "جاکلیدی", "تقویم", "صابون", "سیب‌زمینی", "یخچال", "آبنبات", "کمانچه", 
             "خودکار", "گونی", "گاوصندوق", "کارت‌بانکی", "دستگاه‌کارت‌خوان", "خودپرداز", "اسکناس‌شمار", "کلید", "صندوق", "کفگیر", 
             "کارد", "کاسه", "ماکارونی", "آناناس", 
-            // کلمات سری قبل:
             "اسب", "دوچرخه", "موج‌سواری", "خیاطی", "بالن", "چمنزار", "رعد", "باران", "طوفان", "برف", 
             "بهمن", "رودخانه", "آبشار", "مرداب", "جنگل", "بیابان", "کوهستان", "دره", "غار", "جزیره", 
             "مروارید", "مرجان", "نهنگ", "دلفین", "کوسه", "هشت‌پا", "خرچنگ", "ستاره‌دریایی", "لاک‌پشت", "تمساح", 
@@ -516,7 +638,6 @@
             "چادرمسافرتی", "کیسه‌خواب", "قمقمه", "فلاسک", "پیک‌نیک", "منقل", "سیخ‌کباب", "زغال", "بادبزن", "چاقو", 
             "چراغ‌قوه", "قطب‌نما", "کوله‌پشتی", "ساک‌ورزشی", "کیف‌پول", "جاسوئیچی", "عینک‌آفتابی", "چتر", "بارانی", "کلاه", 
             "شال‌گردن", "دستکش",
-            // کلمات جدید اضافه شده در این مرحله:
             "آفتاب‌پرست", "رعدوبرق", "لاله", "بابونه", "نرگس", "بنفشه", "مریم", "یاس", "رز", "میخک", 
             "زنبق", "داوودی", "ارکیده", "کاکتوس", "سرخس", "بیدمجنون", "چنار", "بلوط", "کاج", "سرو", 
             "نخل", "اکالیپتوس", "بوم‌گردی", "کوهنوردی", "غارنوردی", "درهنوردی", "صخره‌نوردی", "چترباز", "پاراگلایدر", "اسکی", 
@@ -583,7 +704,9 @@
             if (confirm("آیا مطمئنید می‌خواهید پیشرفت‌ها را پاک کنید؟")) {
                 localStorage.removeItem('wordgame_unlockedStage');
                 localStorage.removeItem('wordgame_stageStars');
+                localStorage.removeItem('wordgame_currentStagePage');
                 unlockedStage = 1;
+                currentStagePage = 1;
                 stageStars = {};
                 renderStages();
                 alert("پیشرفت‌ها ریست شد! 🔄");
@@ -602,7 +725,7 @@
         }
 
         function openStages(subjectName) {
-            currentStagePage = 1;
+            currentStagePage = localStorage.getItem('wordgame_currentStagePage') ? parseInt(localStorage.getItem('wordgame_currentStagePage')) : 1;
             document.getElementById('stages-title-text').innerText = 'مراحل ' + subjectName;
             renderStages();
             goToScreen('screen-stages');
@@ -622,18 +745,21 @@
             }
 
             pageStages.forEach(i => {
-                let isLocked = i > unlockedStage;
-                if (isLocked) {
+                let iLocked = i > unlockedStage;
+                if (iLocked) {
                     gridBox.innerHTML += `
-                        <div class="stage-card locked" onclick="playSound(); alert('🔒 این مرحله هنوز قفل است!')">
+                        <div class="stage-card locked" onclick="alert('🔒 این مرحله هنوز قفل است!')">
                             مرحله ${i}
                             <div class="stars">🔒 قفل</div>
                         </div>`;
                 } else {
-                    let starsCount = stageStars[i] !== undefined ? stageStars[i] : 3;
-                    let starsStr = '⭐'.repeat(starsCount);
+                    let starsStr = '';
+                    if (stageStars[i] !== undefined) {
+                        starsStr = '⭐'.repeat(stageStars[i]);
+                    }
+                    
                     gridBox.innerHTML += `
-                        <div class="stage-card" onclick="playSound(); startQuiz(${i})">
+                        <div class="stage-card" onclick="startQuiz(${i})">
                             مرحله ${i}
                             <div class="stars">${starsStr}</div>
                         </div>`;
@@ -649,6 +775,9 @@
             currentStagePage += direction;
             if (currentStagePage < 1) currentStagePage = 1;
             if (currentStagePage > totalPages) currentStagePage = totalPages;
+            
+            localStorage.setItem('wordgame_currentStagePage', currentStagePage);
+            
             renderStages();
         }
 
