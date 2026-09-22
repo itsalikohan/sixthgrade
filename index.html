@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🧩 کلمات به‌ هم‌ ریخته</title>
+    
+    <!-- تنظیمات PWA برای اجرای آفلاین -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e3c72">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap');
 
@@ -370,6 +375,7 @@
             font-weight: 900;
             color: #3b2c00;
             font-size: 1.1rem;
+            display: inline-block;
         }
 
         .back-icon-btn {
@@ -829,6 +835,17 @@
 
     </div>
 
+    <!-- ثبت سرویس ورکر برای حالت آفلاین -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('sw.js')
+            .then((reg) => console.log('Service Worker registered!'))
+            .catch((err) => console.log('Service Worker failed:', err));
+        });
+      }
+    </script>
+
     <script>
         const bgMusic = document.getElementById('bg-music');
         const stageMusic = document.getElementById('stage-music');
@@ -836,7 +853,6 @@
         
         let soundEnabled = localStorage.getItem('wordgame_soundEnabled') !== null ? JSON.parse(localStorage.getItem('wordgame_soundEnabled')) : true;
         
-        // تنظیمات حجم صدا
         let masterVolume = localStorage.getItem('wordgame_masterVolume') !== null ? parseFloat(localStorage.getItem('wordgame_masterVolume')) : 1;
         let musicVolume = localStorage.getItem('wordgame_musicVolume') !== null ? parseFloat(localStorage.getItem('wordgame_musicVolume')) : 1;
         let clickVolume = localStorage.getItem('wordgame_clickVolume') !== null ? parseFloat(localStorage.getItem('wordgame_clickVolume')) : 1;
@@ -856,7 +872,6 @@
                 clickSound.volume = 0;
                 return;
             }
-            // محاسبه نهایی ولوم‌ها بر اساس مستر ولوم و ولوم اختصاصی هر بخش
             bgMusic.volume = musicVolume * masterVolume;
             stageMusic.volume = musicVolume * masterVolume;
             clickSound.volume = clickVolume * masterVolume;
@@ -968,7 +983,7 @@
             clickVolume = parseFloat(document.getElementById('click-volume-slider').value);
             localStorage.setItem('wordgame_clickVolume', clickVolume);
             applyVolumes();
-            playClick(); // تست صدا هنگام تغییر اسلایدر
+            playClick();
         }
 
         function playMusicForScreen(screenId) {
@@ -1019,7 +1034,6 @@
         }
         updateAccountUI();
 
-        // سیستم پلی‌تایم (۱ ساعت = ۳۶۰۰ ثانیه)
         const PLAYTIME_REQUIRED = 3600; 
         let playtimeSeconds = localStorage.getItem('wordgame_playtime') ? parseInt(localStorage.getItem('wordgame_playtime')) : 0;
 
@@ -1346,7 +1360,11 @@
                 }
             });
 
-            document.getElementById('page-indicator').innerText = `صفحه ${currentStagePage} از ${totalPages}`;
+            const pageIndicator = document.getElementById('page-indicator');
+            if(pageIndicator) {
+                pageIndicator.innerText = `صفحه ${currentStagePage}`;
+            }
+
             document.getElementById('prev-page-btn').disabled = (currentStagePage === 1);
             document.getElementById('next-page-btn').disabled = (currentStagePage === totalPages);
         }
