@@ -21,6 +21,7 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            overscroll-behavior-y: none;
         }
 
         .phone-frame {
@@ -36,6 +37,39 @@
             position: relative;
             overflow: hidden;
             border: 8px solid #333;
+        }
+
+        /* استایل بخش نمایش سکه‌ها بالای صفحه */
+        .coin-header {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .coin-badge {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 900;
+            color: #d32f2f;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            pointer-events: auto;
+            border: 2px solid #ff9800;
+        }
+
+        .coin-badge img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
         }
 
         .screen {
@@ -93,9 +127,17 @@
         .account-btn { background: linear-gradient(45deg, #8e2de2, #4a00e0); }
         .settings-btn { background: linear-gradient(45deg, #00c6ff, #0072ff); }
         .herobrine-btn { background: linear-gradient(45deg, #11998e, #38ef7d); }
-        .exit-btn { background: linear-gradient(45deg, #cb2d3e, #ef473a); }
+        .coins-shop-btn { background: linear-gradient(45deg, #f39c12, #d35400); }
+        
+        .exit-btn { 
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            font-size: 1.35rem;
+            padding: 16px 30px;
+            width: 85%;
+            box-shadow: 0 10px 20px rgba(255, 65, 108, 0.4);
+            border: 2px solid #fff;
+        }
 
-        /* استایل باکس من ربات نیستم */
         .captcha-box {
             background: white;
             border: 2px solid #d3d3d3;
@@ -148,9 +190,9 @@
             margin-bottom: 2px;
         }
 
-        .account-box, .settings-box, .quiz-box {
+        .account-box, .settings-box, .quiz-box, .coins-box {
             background: white;
-            padding: 20px;
+            padding: 15px;
             border-radius: 20px;
             width: 100%;
             color: #333;
@@ -159,6 +201,8 @@
             flex-direction: column;
             gap: 12px;
             text-align: right;
+            max-height: 520px;
+            overflow-y: auto;
         }
 
         .account-box label {
@@ -179,7 +223,7 @@
 
         .profile-card {
             background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-            padding: 15px;
+            padding: 12px;
             border-radius: 15px;
             border: 2px solid #2196F3;
             text-align: center;
@@ -188,8 +232,8 @@
         .setting-item {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            font-size: 1rem;
+            gap: 5px;
+            font-size: 0.95rem;
             font-weight: bold;
         }
 
@@ -329,61 +373,277 @@
         }
 
         .back-icon-btn {
-            position: absolute; bottom: 20px; left: 20px; background: #f44336;
-            color: white; border: none; width: 45px; height: 45px; border-radius: 50%;
-            font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10;
+            position: absolute; bottom: 15px; left: 15px; background: #f44336;
+            color: white; border: none; width: 42px; height: 42px; border-radius: 50%;
+            font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
-        .quiz-box h3 { margin-bottom: 12px; color: #388e3c; font-size: 1rem; line-height: 1.5; }
+        .quiz-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 2px;
+        }
+
+        .quiz-box h3 { margin-bottom: 0; color: #388e3c; font-size: 0.85rem; }
+
+        .hint-btn {
+            background: linear-gradient(135deg, #ffb300, #ff8f00);
+            border: 2px solid #fff;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            transition: transform 0.1s;
+        }
+        .hint-btn:active { transform: scale(0.95); }
+        .hint-btn img { width: 16px; height: 16px; object-fit: contain; }
         
         .scrambled-word {
-            font-size: 1.8rem;
+            font-size: 1.2rem;
             font-weight: 900;
             color: #d32f2f;
             background: #ffe082;
-            padding: 10px;
-            border-radius: 12px;
-            letter-spacing: 4px;
-            margin-bottom: 15px;
+            padding: 3px;
+            border-radius: 8px;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
             border: 2px dashed #f57c00;
         }
 
-        .quiz-box input[type="text"] {
-            width: 100%;
-            padding: 12px;
+        .answer-preview-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            min-height: 36px;
+            background: #fff;
             border: 2px solid #4caf50;
-            border-radius: 12px;
-            font-size: 1.2rem;
-            font-family: 'Vazirmatn', sans-serif;
+            border-radius: 10px;
+            padding: 4px;
+            margin-bottom: 4px;
+            direction: rtl;
+        }
+
+        .answer-slot {
+            width: 30px;
+            height: 30px;
+            background: #e8f5e9;
+            border: 2px solid #81c784;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .answer-slot.hint-slot {
+            background: #fff9c4;
+            border-color: #fbc02d;
+            color: #f57f17;
+        }
+
+        .wooden-keyboard {
+            background: linear-gradient(135deg, #d7ccc8, #bcaaa4);
+            padding: 8px;
+            border-radius: 16px;
+            border: 3px solid #8d6e63;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 2px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+        }
+
+        .kb-row {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .kb-key {
+            background: linear-gradient(135deg, #ffe0b2, #ffcc80);
+            border: 2px solid #f57c00;
+            color: #5d4037;
+            font-size: 1.1rem;
+            font-weight: 900;
+            height: 38px;
+            flex: 1;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.15);
+            transition: all 0.1s ease;
+        }
+
+        .kb-key:hover {
+            background: linear-gradient(135deg, #ffe082, #ffb300);
+            transform: translateY(-2px);
+        }
+
+        .kb-key:active {
+            background: #ffa000;
+            transform: translateY(2px);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .kb-key.action-key {
+            background: linear-gradient(135deg, #b0bec5, #90a4ae);
+            color: #fff;
+            border-color: #78909c;
+            flex: 1.5;
+            font-size: 1rem;
+        }
+
+        .kb-key.submit-key {
+            background: linear-gradient(135deg, #66bb6a, #43a047);
+            color: white;
+            border-color: #2e7d32;
+            flex: 3;
+            font-size: 1.1rem;
+            height: 40px;
+            box-shadow: 0 4px 10px rgba(67, 160, 71, 0.4);
+        }
+
+        .win-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            animation: fadeInOverlay 0.3s ease;
+        }
+
+        .win-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeInOverlay {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .win-card {
+            background: white;
+            padding: 25px 20px;
+            border-radius: 25px;
+            width: 85%;
+            max-width: 320px;
             text-align: center;
-            outline: none;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border: 4px solid #fbc02d;
+            animation: popUpWin 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popUpWin {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .win-card h2 {
+            color: #2e7d32;
+            font-size: 1.6rem;
             margin-bottom: 10px;
         }
 
-        .submit-word-btn {
-            background: linear-gradient(45deg, #4caf50, #8bc34a);
+        .win-stars-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            font-size: 2.5rem;
+            margin: 15px 0;
+        }
+
+        .win-star {
+            animation: bounceStar 0.6s alternate infinite;
+        }
+
+        .win-star:nth-child(2) { animation-delay: 0.2s; }
+        .win-star:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes bounceStar {
+            from { transform: translateY(0) scale(1); }
+            to { transform: translateY(-8px) scale(1.1); }
+        }
+
+        .next-stage-btn {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
             color: white;
             border: none;
-            padding: 12px;
-            font-size: 1rem;
+            padding: 12px 15px;
+            font-size: 1.05rem;
             font-weight: bold;
-            border-radius: 12px;
+            border-radius: 50px;
             cursor: pointer;
-            width: 100%;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 15px rgba(39, 174, 96, 0.4);
+            transition: transform 0.2s;
         }
-        .submit-word-btn:hover { background: linear-gradient(45deg, #388e3c, #7cb342); }
+
+        .next-stage-btn:hover { transform: scale(1.05); }
     </style>
 </head>
 <body>
 
-    <!-- موزیک پس‌زمینه با قابلیت تکرار خودکار -->
-    <audio id="bg-music" src="kki2.mp3" loop></audio>
+    <audio id="bg-music" src="kki2.ogg" loop></audio>
+    <audio id="stage-music" src="kki3.ogg" loop></audio>
+    <audio id="click-sound" src="kil1.wav"></audio>
 
     <div class="phone-frame">
         
-        <!-- صفحه بررسی ربات (اولین صفحه ورود) -->
+        <div class="coin-header">
+            <div class="coin-badge">
+                <img src="Coin.png" alt="سکه">
+                <span id="coin-count">0</span>
+            </div>
+        </div>
+
+        <div id="win-overlay" class="win-overlay">
+            <div class="win-card">
+                <h2>آفرین! مرحله تمام شد 🎉</h2>
+                <div class="win-stars-container">
+                    <span class="win-star">⭐</span>
+                    <span class="win-star">⭐</span>
+                    <span class="win-star">⭐</span>
+                </div>
+                <p style="color: #666; margin-bottom: 15px; font-size: 0.95rem;">پاسخ درست بود و <b style="color: #f5af19;">۳۰ سکه</b> جایزه گرفتی! <img src="Coin.png" style="width: 16px; vertical-align: middle;" alt="سکه"></p>
+                
+                <div style="display: flex; gap: 8px;">
+                    <button class="next-stage-btn" onclick="goToNextStage()" style="flex: 1;">ادامه ➡</button>
+                    <button class="btn" onclick="goToMenuFromWin()" style="flex: 1; margin: 0; font-size: 1.05rem; padding: 12px 10px; background: linear-gradient(45deg, #00c6ff, #0072ff);">منو 🏠</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="lose-overlay" class="win-overlay">
+            <div class="win-card" style="border-color: #f44336;">
+                <h2 style="color: #f44336;">اشتباه زدی! ❌</h2>
+                <div style="font-size: 3rem; margin: 15px 0;">😢</div>
+                <p style="color: #666; margin-bottom: 15px; font-size: 0.95rem;">پاسخ نادرست بود. هیچ ستاره‌ای نگرفتی!</p>
+                
+                <div style="display: flex; gap: 8px;">
+                    <button class="next-stage-btn" onclick="closeLosePopup()" style="flex: 1; background: linear-gradient(45deg, #f39c12, #e67e22);">تلاش دوباره 🔄</button>
+                    <button class="btn" onclick="goToMenuFromLose()" style="flex: 1; margin: 0; font-size: 1.05rem; padding: 12px 10px; background: linear-gradient(45deg, #00c6ff, #0072ff);">منو 🏠</button>
+                </div>
+            </div>
+        </div>
+
         <div id="screen-captcha" class="screen active">
             <h1 style="font-size: 1.5rem; margin-bottom: 10px;">🔒 تایید ورود</h1>
             <p style="color: #444; margin-bottom: 20px; font-size: 0.95rem;">برای ورود به بازی، لطفا تایید کنید:</p>
@@ -400,18 +660,33 @@
             </div>
         </div>
 
-        <!-- صفحه اول -->
         <div id="screen-home" class="screen">
             <h1>🧩 کلمات به‌ هم‌ ریخته</h1>
             <div id="welcome-msg" style="font-weight: bold; color: #333; margin-bottom: 10px; font-size: 1.1rem;"></div>
-            <button class="btn" onclick="goToScreen('screen-subjects')">شروع بازی 🔔</button>
-            <button class="btn account-btn" onclick="goToScreen('screen-account')">اکانت 👤</button>
-            <button class="btn settings-btn" onclick="goToScreen('screen-settings')">تنظیمات ⚙️</button>
-            <button class="btn herobrine-btn" onclick="openHerobrineCraft()">هیروبراین کرفت ⛏️</button>
-            <button class="btn exit-btn" onclick="exitGame()">خروج 🚪</button>
+            <button class="btn" onclick="playClickAndGo('screen-subjects')">شروع بازی 🔔</button>
+            <button class="btn coins-shop-btn" onclick="playClickAndGo('screen-coins')">💰 سکه رایگان</button>
+            <button class="btn account-btn" onclick="playClickAndGo('screen-account')">اکانت 👤</button>
+            <button class="btn settings-btn" onclick="playClickAndGo('screen-settings')">تنظیمات ⚙️</button>
+            <button class="btn herobrine-btn" onclick="playClickAndOpenHerobrine()">هیروبراین کرفت ⛏️</button>
+            <button class="btn exit-btn" onclick="playClickAndExit()">خروج 🚪</button>
         </div>
 
-        <!-- صفحه اکانت -->
+        <!-- صفحه سکه رایگان -->
+        <div id="screen-coins" class="screen">
+            <h1>💰 سکه رایگان</h1>
+            <div class="coins-box">
+                <p style="font-size: 0.95rem; color: #555; text-align: center;">با ۱ ساعت بازی کردن، ۳۰۰ سکه رایگان هدیه بگیر!</p>
+                
+                <div style="background: #fff3e0; border: 2px dashed #ff9800; border-radius: 15px; padding: 15px; text-align: center;">
+                    <div style="font-size: 0.9rem; color: #e65100; font-weight: bold; margin-bottom: 5px;">زمان باقیمانده تا جایزه بعدی:</div>
+                    <div id="playtime-timer" style="font-size: 1.6rem; font-weight: 900; color: #d32f2f; direction: ltr;">01:00:00</div>
+                </div>
+
+                <button id="claim-coin-btn" class="btn" style="width: 100%; margin: 0; background: #bdbdbd; cursor: not-allowed;" onclick="claimPlaytimeCoins()" disabled>دریافت ۳۰۰ سکه <img src="Coin.png" style="width: 20px; vertical-align: middle;" alt="سکه"></button>
+            </div>
+            <button class="back-icon-btn" onclick="playClickAndGo('screen-home')">⬅</button>
+        </div>
+
         <div id="screen-account" class="screen">
             <h1>👤 تنظیمات اکانت</h1>
             <div class="account-box">
@@ -428,24 +703,35 @@
 
                 <button class="btn" style="width: 100%; margin-top: 5px; font-size: 1.1rem; padding: 10px;" onclick="saveAccountInfo()">ذخیره اطلاعات ✅</button>
             </div>
-            <button class="back-icon-btn" onclick="goToScreen('screen-home')">⬅</button>
+            <button class="back-icon-btn" onclick="playClickAndGo('screen-home')">⬅</button>
         </div>
 
-        <!-- صفحه تنظیمات -->
         <div id="screen-settings" class="screen">
             <h1>⚙️ تنظیمات</h1>
             <div class="settings-box">
                 <div class="setting-row">
-                    <span>پخش موزیک 🔊</span>
+                    <span>پخش کلی صداها 🔊</span>
                     <label class="switch">
                         <input type="checkbox" id="sound-toggle" checked onchange="toggleSound()">
                         <span class="slider-toggle"></span>
                     </label>
                 </div>
+                
                 <div class="setting-item">
-                    <span>تنظیم بلندی صدا (ولوم) 🎚️</span>
-                    <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="1" oninput="changeVolume()">
+                    <span>تمام صداها (مستر ولوم) 🎚️</span>
+                    <input type="range" id="master-volume-slider" min="0" max="1" step="0.05" value="1" oninput="changeMasterVolume()">
                 </div>
+
+                <div class="setting-item">
+                    <span>صدای موزیک‌ها 🎵</span>
+                    <input type="range" id="music-volume-slider" min="0" max="1" step="0.05" value="1" oninput="changeMusicVolume()">
+                </div>
+
+                <div class="setting-item">
+                    <span>صدای دکمه‌ها 🔘</span>
+                    <input type="range" id="click-volume-slider" min="0" max="1" step="0.05" value="1" oninput="changeClickVolume()">
+                </div>
+
                 <hr style="border: 0; border-top: 1px solid #eee;">
                 <div>
                     <button class="danger-action-btn" onclick="resetProgress()">از دست دادن پیشرفت‌ها ⚠️</button>
@@ -454,73 +740,192 @@
                     <button class="danger-action-btn" onclick="resetAccount()">از دست دادن اکانت ⚠️</button>
                 </div>
             </div>
-            <button class="back-icon-btn" onclick="goToScreen('screen-home')">⬅</button>
+            <button class="back-icon-btn" onclick="playClickAndGo('screen-home')">⬅</button>
         </div>
 
-        <!-- صفحه انتخاب بخش -->
         <div id="screen-subjects" class="screen">
             <h1>📚 انتخاب بخش بازی</h1>
             <div class="subjects-grid">
-                <button class="subject-btn" onclick="openStages('کلمات')">🎯 ورود به مراحل کلمات</button>
+                <button class="subject-btn" onclick="playClickAndOpenStages('کلمات')">🎯 ورود به مراحل کلمات</button>
             </div>
-            <button class="back-icon-btn" onclick="goToScreen('screen-home')">⬅</button>
+            <button class="back-icon-btn" onclick="playClickAndGo('screen-home')">⬅</button>
         </div>
 
-        <!-- صفحه مراحل -->
         <div id="screen-stages" class="screen">
             <h1 id="stages-title-text" style="font-size: 1.5rem; margin-bottom: 15px;">مراحل بازی</h1>
             <div class="stages-container">
                 <div class="stages-grid" id="stages-grid-box"></div>
                 <div class="pagination-box">
-                    <button class="page-nav-btn" id="next-page-btn" onclick="changeStagePage(1)">بعدی ⬅</button>
+                    <button class="page-nav-btn" id="next-page-btn" onclick="playClickAndChangePage(1)">بعدی ⬅</button>
                     <span id="page-indicator" class="page-indicator">صفحه ۱</span>
-                    <button class="page-nav-btn" id="prev-page-btn" onclick="changeStagePage(-1)">➡ قبلی</button>
+                    <button class="page-nav-btn" id="prev-page-btn" onclick="playClickAndChangePage(-1)">➡ قبلی</button>
                 </div>
             </div>
-            <button class="back-icon-btn" onclick="goToScreen('screen-subjects')">⬅</button>
+            <button class="back-icon-btn" onclick="playClickAndGo('screen-subjects')">⬅</button>
         </div>
 
-        <!-- صفحه حل کلمه -->
         <div id="screen-quiz" class="screen">
-            <h1 id="quiz-title" style="font-size: 1.1rem; margin-bottom: 10px;">مرحله</h1>
+            <h1 id="quiz-title" style="font-size: 0.95rem; margin-bottom: 2px;">مرحله</h1>
             <div class="quiz-box">
-                <h3>حروف به‌هم‌ریخته زیر را مرتب کنید:</h3>
+                <div class="quiz-header-row">
+                    <h3>حروف به‌هم‌ریخته زیر را مرتب کنید:</h3>
+                    <button class="hint-btn" onclick="useHint()">
+                        <img src="Coin.png" alt="سکه"> راهنما (۵۰-)
+                    </button>
+                </div>
                 <div id="scrambled-display" class="scrambled-word"></div>
-                <input type="text" id="user-word-input" placeholder="کلمه درست را اینجا بنویسید..." autocomplete="off">
-                <button class="submit-word-btn" onclick="checkWordAnswer()">بررسی پاسخ ✅</button>
+                
+                <div id="answer-preview" class="answer-preview-container"></div>
+
+                <div class="wooden-keyboard">
+                    <div class="kb-row">
+                        <button class="kb-key" onclick="typeKey('ا')">ا</button>
+                        <button class="kb-key" onclick="typeKey('ب')">ب</button>
+                        <button class="kb-key" onclick="typeKey('پ')">پ</button>
+                        <button class="kb-key" onclick="typeKey('ت')">ت</button>
+                        <button class="kb-key" onclick="typeKey('ث')">ث</button>
+                        <button class="kb-key" onclick="typeKey('ج')">ج</button>
+                        <button class="kb-key" onclick="typeKey('چ')">چ</button>
+                        <button class="kb-key" onclick="typeKey('ح')">ح</button>
+                    </div>
+                    <div class="kb-row">
+                        <button class="kb-key" onclick="typeKey('خ')">خ</button>
+                        <button class="kb-key" onclick="typeKey('د')">د</button>
+                        <button class="kb-key" onclick="typeKey('ذ')">ذ</button>
+                        <button class="kb-key" onclick="typeKey('ر')">ر</button>
+                        <button class="kb-key" onclick="typeKey('ز')">ز</button>
+                        <button class="kb-key" onclick="typeKey('ژ')">ژ</button>
+                        <button class="kb-key" onclick="typeKey('س')">س</button>
+                        <button class="kb-key" onclick="typeKey('ش')">ش</button>
+                    </div>
+                    <div class="kb-row">
+                        <button class="kb-key" onclick="typeKey('ص')">ص</button>
+                        <button class="kb-key" onclick="typeKey('ض')">ض</button>
+                        <button class="kb-key" onclick="typeKey('ط')">ط</button>
+                        <button class="kb-key" onclick="typeKey('ظ')">ظ</button>
+                        <button class="kb-key" onclick="typeKey('ع')">ع</button>
+                        <button class="kb-key" onclick="typeKey('غ')">غ</button>
+                        <button class="kb-key" onclick="typeKey('ف')">ف</button>
+                        <button class="kb-key" onclick="typeKey('ق')">ق</button>
+                    </div>
+                    <div class="kb-row">
+                        <button class="kb-key" onclick="typeKey('ک')">ک</button>
+                        <button class="kb-key" onclick="typeKey('گ')">گ</button>
+                        <button class="kb-key" onclick="typeKey('ل')">ل</button>
+                        <button class="kb-key" onclick="typeKey('م')">م</button>
+                        <button class="kb-key" onclick="typeKey('ن')">ن</button>
+                        <button class="kb-key" onclick="typeKey('و')">و</button>
+                        <button class="kb-key" onclick="typeKey('ه')">ه</button>
+                        <button class="kb-key" onclick="typeKey('ی')">ی</button>
+                    </div>
+                    <div class="kb-row">
+                        <button class="kb-key action-key" onclick="deleteLastLetter()">⌫ پاک کردن</button>
+                        <button class="kb-key submit-key" onclick="checkWordAnswer()">بررسی پاسخ ✅</button>
+                    </div>
+                </div>
             </div>
-            <button class="back-icon-btn" onclick="goToScreen('screen-stages')">⬅</button>
+            <button class="back-icon-btn" onclick="playClickAndGo('screen-stages')">⬅</button>
         </div>
 
     </div>
 
     <script>
         const bgMusic = document.getElementById('bg-music');
+        const stageMusic = document.getElementById('stage-music');
+        const clickSound = document.getElementById('click-sound');
         
         let soundEnabled = localStorage.getItem('wordgame_soundEnabled') !== null ? JSON.parse(localStorage.getItem('wordgame_soundEnabled')) : true;
-        let soundVolume = localStorage.getItem('wordgame_soundVolume') ? parseFloat(localStorage.getItem('wordgame_soundVolume')) : 1;
         
-        bgMusic.volume = soundVolume;
+        // تنظیمات حجم صدا
+        let masterVolume = localStorage.getItem('wordgame_masterVolume') !== null ? parseFloat(localStorage.getItem('wordgame_masterVolume')) : 1;
+        let musicVolume = localStorage.getItem('wordgame_musicVolume') !== null ? parseFloat(localStorage.getItem('wordgame_musicVolume')) : 1;
+        let clickVolume = localStorage.getItem('wordgame_clickVolume') !== null ? parseFloat(localStorage.getItem('wordgame_clickVolume')) : 1;
+        
+        let userCoins = localStorage.getItem('wordgame_coins') ? parseInt(localStorage.getItem('wordgame_coins')) : 0;
+
+        function updateCoinUI() {
+            document.getElementById('coin-count').innerText = userCoins;
+            localStorage.setItem('wordgame_coins', userCoins);
+        }
+        updateCoinUI();
+
+        function applyVolumes() {
+            if (!soundEnabled) {
+                bgMusic.volume = 0;
+                stageMusic.volume = 0;
+                clickSound.volume = 0;
+                return;
+            }
+            // محاسبه نهایی ولوم‌ها بر اساس مستر ولوم و ولوم اختصاصی هر بخش
+            bgMusic.volume = musicVolume * masterVolume;
+            stageMusic.volume = musicVolume * masterVolume;
+            clickSound.volume = clickVolume * masterVolume;
+        }
 
         window.addEventListener('DOMContentLoaded', () => {
             const soundToggleElem = document.getElementById('sound-toggle');
-            const volumeSliderElem = document.getElementById('volume-slider');
+            const masterSliderElem = document.getElementById('master-volume-slider');
+            const musicSliderElem = document.getElementById('music-volume-slider');
+            const clickSliderElem = document.getElementById('click-volume-slider');
+
             if (soundToggleElem) soundToggleElem.checked = soundEnabled;
-            if (volumeSliderElem) volumeSliderElem.value = soundVolume;
+            if (masterSliderElem) masterSliderElem.value = masterVolume;
+            if (musicSliderElem) musicSliderElem.value = musicVolume;
+            if (clickSliderElem) clickSliderElem.value = clickVolume;
+
+            applyVolumes();
+            initPlaytimeSystem();
         });
 
         bgMusic.addEventListener('ended', () => {
-            if (soundEnabled) {
+            if (soundEnabled && !document.getElementById('screen-quiz').classList.contains('active')) {
                 bgMusic.currentTime = 0;
                 bgMusic.play().catch(e => {});
             }
         });
 
+        stageMusic.addEventListener('ended', () => {
+            if (soundEnabled && document.getElementById('screen-quiz').classList.contains('active')) {
+                stageMusic.currentTime = 0;
+                stageMusic.play().catch(e => {});
+            }
+        });
+
+        function playClick() {
+            if (!soundEnabled) return;
+            clickSound.currentTime = 0;
+            clickSound.play().catch(e => {});
+        }
+
+        function playClickAndGo(screenId) {
+            playClick();
+            goToScreen(screenId);
+        }
+
+        function playClickAndOpenHerobrine() {
+            playClick();
+            openHerobrineCraft();
+        }
+
+        function playClickAndExit() {
+            playClick();
+            exitGame();
+        }
+
+        function playClickAndOpenStages(subjectName) {
+            playClick();
+            openStages(subjectName);
+        }
+
+        function playClickAndChangePage(direction) {
+            playClick();
+            changeStagePage(direction);
+        }
+
         function verifyRobot(checkbox) {
+            playClick();
             if (checkbox.checked) {
-                if (soundEnabled) {
-                    bgMusic.play().catch(e => {});
-                }
+                playMusicForScreen('screen-home');
                 setTimeout(() => {
                     goToScreen('screen-home');
                 }, 400);
@@ -531,26 +936,61 @@
             soundEnabled = document.getElementById('sound-toggle').checked;
             localStorage.setItem('wordgame_soundEnabled', soundEnabled);
             
+            applyVolumes();
+
             if (soundEnabled) {
-                bgMusic.play().catch(e => {});
+                playClick();
+                const isQuizActive = document.getElementById('screen-quiz').classList.contains('active');
+                if (isQuizActive) {
+                    stageMusic.play().catch(e => {});
+                } else {
+                    bgMusic.play().catch(e => {});
+                }
             } else {
                 bgMusic.pause();
+                stageMusic.pause();
             }
         }
 
-        function changeVolume() {
-            const vol = document.getElementById('volume-slider').value;
-            bgMusic.volume = vol;
-            localStorage.setItem('wordgame_soundVolume', vol);
+        function changeMasterVolume() {
+            masterVolume = parseFloat(document.getElementById('master-volume-slider').value);
+            localStorage.setItem('wordgame_masterVolume', masterVolume);
+            applyVolumes();
+        }
+
+        function changeMusicVolume() {
+            musicVolume = parseFloat(document.getElementById('music-volume-slider').value);
+            localStorage.setItem('wordgame_musicVolume', musicVolume);
+            applyVolumes();
+        }
+
+        function changeClickVolume() {
+            clickVolume = parseFloat(document.getElementById('click-volume-slider').value);
+            localStorage.setItem('wordgame_clickVolume', clickVolume);
+            applyVolumes();
+            playClick(); // تست صدا هنگام تغییر اسلایدر
+        }
+
+        function playMusicForScreen(screenId) {
+            if (!soundEnabled) return;
+
+            if (screenId === 'screen-quiz') {
+                bgMusic.pause();
+                bgMusic.currentTime = 0;
+                stageMusic.play().catch(e => {});
+            } else {
+                stageMusic.pause();
+                stageMusic.currentTime = 0;
+                if (screenId !== 'screen-captcha') {
+                    bgMusic.play().catch(e => {});
+                }
+            }
         }
 
         function goToScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
-
-            if (soundEnabled && bgMusic.paused && screenId !== 'screen-captcha') {
-                bgMusic.play().catch(e => {});
-            }
+            playMusicForScreen(screenId);
         }
 
         function openHerobrineCraft() {
@@ -568,6 +1008,7 @@
         }
 
         function saveAccountInfo() {
+            playClick();
             userName = document.getElementById('user-name-input').value.trim() || 'علی';
             userClass = document.getElementById('user-class-select').value;
             localStorage.setItem('user_name', userName);
@@ -577,6 +1018,68 @@
             goToScreen('screen-home');
         }
         updateAccountUI();
+
+        // سیستم پلی‌تایم (۱ ساعت = ۳۶۰۰ ثانیه)
+        const PLAYTIME_REQUIRED = 3600; 
+        let playtimeSeconds = localStorage.getItem('wordgame_playtime') ? parseInt(localStorage.getItem('wordgame_playtime')) : 0;
+
+        function initPlaytimeSystem() {
+            setInterval(() => {
+                if (playtimeSeconds < PLAYTIME_REQUIRED) {
+                    playtimeSeconds++;
+                    localStorage.setItem('wordgame_playtime', playtimeSeconds);
+                    updatePlaytimeUI();
+                }
+            }, 1000);
+            updatePlaytimeUI();
+        }
+
+        function updatePlaytimeUI() {
+            let remaining = PLAYTIME_REQUIRED - playtimeSeconds;
+            if (remaining < 0) remaining = 0;
+
+            let hours = Math.floor(remaining / 3600);
+            let minutes = Math.floor((remaining % 3600) / 60);
+            let seconds = remaining % 60;
+
+            let timeFormatted = 
+                String(hours).padStart(2, '0') + ':' + 
+                String(minutes).padStart(2, '0') + ':' + 
+                String(seconds).padStart(2, '0');
+
+            const timerElem = document.getElementById('playtime-timer');
+            const claimBtn = document.getElementById('claim-coin-btn');
+
+            if (timerElem) timerElem.innerText = timeFormatted;
+
+            if (claimBtn) {
+                if (playtimeSeconds >= PLAYTIME_REQUIRED) {
+                    claimBtn.disabled = false;
+                    claimBtn.style.background = 'linear-gradient(45deg, #27ae60, #2ecc71)';
+                    claimBtn.style.cursor = 'pointer';
+                    claimBtn.innerHTML = 'دریافت ۳۰۰ سکه رایگان! <img src="Coin.png" style="width: 20px; vertical-align: middle;" alt="سکه">';
+                } else {
+                    claimBtn.disabled = true;
+                    claimBtn.style.background = '#bdbdbd';
+                    claimBtn.style.cursor = 'not-allowed';
+                    claimBtn.innerHTML = 'دریافت ۳۰۰ سکه <img src="Coin.png" style="width: 20px; vertical-align: middle;" alt="سکه">';
+                }
+            }
+        }
+
+        function claimPlaytimeCoins() {
+            playClick();
+            if (playtimeSeconds >= PLAYTIME_REQUIRED) {
+                userCoins += 300;
+                updateCoinUI();
+                
+                playtimeSeconds = 0;
+                localStorage.setItem('wordgame_playtime', playtimeSeconds);
+                updatePlaytimeUI();
+                
+                alert('تبریک! ۳۰۰ سکه رایگان به حساب شما اضافه شد! 🎉');
+            }
+        }
 
         let currentStagePage = localStorage.getItem('wordgame_currentStagePage') ? parseInt(localStorage.getItem('wordgame_currentStagePage')) : 1;
         const stagesPerPage = 6;
@@ -614,6 +1117,7 @@
             "وکیل", "قاضی", "پلیس", "آتش‌نشان", "سرباز", "آشپز", "نانوا", "قصاب", "کفاش", "خیاط", 
             "مجسمه‌ساز", "معمار", "مکانیک", "برق‌کار", "لوله‌کش", "نجاری", "باغبان", "کشاورز", "دامدار", "ماهیگیر", 
             "دربان", "نگهبان", "راننده", "ملوان", "کاپیتان", "فضانورد", "دانشمند", "محقق", "نویسنده", "شاعر", 
+            "امید", "ناامیدی", "شجاعت", "هیجان", "آرامش", "استرس", "اضطراب", "تنهایی", "دلتنگی", "عشق","دلتنگی",
             "روزنامه‌نگار", "عکاس", "فیلم‌بردار", "کارگردان", "بازیگر", "خواننده", "نوازنده", "آهنگساز", "ورزشکار", "داور", 
             "مربی", "جراح", "دندانپزشک", "داروساز", "روان‌شناس", "مشاور", "حسابدار", "مدیر", "کارمند", "منشی", 
             "فروشنده", "صندوق‌دار", "بازرگان", "بیمارستان", "مدرسه", "دانشگاه", "کتابخانه", "فرودگاه", "ایستگاه", "بندر", 
@@ -621,6 +1125,10 @@
             "تئاتر", "موزه", "پارک", "شهربازی", "استخر", "ورزشگاه", "زمین‌بازی", "شهرداری", "فرمانداری", "دادگاه", 
             "زندان", "کلانتری", "آتش‌نشانی", "مسجد", "کلیسا", "معبد", "آرامگاه", "آرامستان", "پل", "تونل", 
             "بزرگراه", "خیابان", "کوچه", "خنده", "گریه", "ترس", "خشم", "تعجب", "غم", "شادی", 
+            "امید", "ناامیدی", "شجاعت", "هیجان", "آرامش", "استرس", "اضطراب", "تنهایی", "دلتنگی", "عشق",
+            "امید", "ناامیدی", "شجاعت", "هیجان", "آرامش", "استرس", "اضطراب", "تنهایی", "دلتنگی", "عشق",
+            "امید", "ناامیدی", "شجاعت", "هیجان", "آرامش", "استرس", "اضطراب", "تنهایی", "دلتنگی", "عشق",
+            "امید", "ناامیدی", "شجاعت", "هیجان", "آرامش", "استرس", "اضطراب", "تنهایی", "دلتنگی", "عشق",
             "امید", "ناامیدی", "شجاعت", "هیجان", "آرامش", "استرس", "اضطراب", "تنهایی", "دلتنگی", "عشق", 
             "نفرت", "حسادت", "غرور", "تواضع", "بخشش", "کینه", "صبوری", "عجله", "خستگی", "انرژی", 
             "تنبلی", "تلاش", "موفقیت", "شکست", "پیروزی", "باخت", "رقابت", "رفاقت", "دشمنی", "صلح", 
@@ -701,21 +1209,91 @@
         let stageStars = localStorage.getItem('wordgame_stageStars') ? JSON.parse(localStorage.getItem('wordgame_stageStars')) : {};
 
         let activeStageNum = 1;
+        let currentTypedLetters = [];
+        let hintCount = 0;
+
+        function typeKey(char) {
+            playClick();
+            let correctWord = rawWords[activeStageNum - 1];
+            if (currentTypedLetters.length >= correctWord.length) return;
+            
+            currentTypedLetters.push(char);
+            updateAnswerPreview();
+        }
+
+        function deleteLastLetter() {
+            playClick();
+            if (currentTypedLetters.length <= hintCount) {
+                return; 
+            }
+            currentTypedLetters.pop();
+            updateAnswerPreview();
+        }
+
+        function updateAnswerPreview() {
+            const previewContainer = document.getElementById('answer-preview');
+            previewContainer.innerHTML = '';
+            
+            let correctWord = rawWords[activeStageNum - 1];
+            for (let i = 0; i < correctWord.length; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'answer-slot';
+                
+                if (currentTypedLetters[i]) {
+                    slot.innerText = currentTypedLetters[i];
+                    if (i < hintCount) {
+                        slot.classList.add('hint-slot');
+                    }
+                }
+                previewContainer.appendChild(slot);
+            }
+        }
+
+        function useHint() {
+            playClick();
+            if (userCoins < 50) {
+                alert("سکه‌هایت برای راهنما کافی نیست! (حداقل ۵۰ سکه نیاز داری)");
+                return;
+            }
+
+            let correctWord = rawWords[activeStageNum - 1];
+            let nextIndex = currentTypedLetters.length;
+            if (nextIndex >= correctWord.length) {
+                alert("تمام خانه‌های پاسخ پر شده‌اند!");
+                return;
+            }
+
+            userCoins -= 50;
+            updateCoinUI();
+
+            hintCount++;
+            let nextChar = correctWord[nextIndex];
+            currentTypedLetters.push(nextChar);
+            updateAnswerPreview();
+        }
 
         function resetProgress() {
+            playClick();
             if (confirm("آیا مطمئنید می‌خواهید پیشرفت‌ها را پاک کنید؟")) {
                 localStorage.removeItem('wordgame_unlockedStage');
                 localStorage.removeItem('wordgame_stageStars');
                 localStorage.removeItem('wordgame_currentStagePage');
+                localStorage.removeItem('wordgame_coins');
+                localStorage.removeItem('wordgame_playtime');
                 unlockedStage = 1;
                 currentStagePage = 1;
                 stageStars = {};
+                userCoins = 0;
+                playtimeSeconds = 0;
+                updateCoinUI();
+                updatePlaytimeUI();
                 renderStages();
                 alert("پیشرفت‌ها ریست شد! 🔄");
             }
         }
 
         function resetAccount() {
+            playClick();
             if (confirm("آیا اکانت ریست شود؟")) {
                 localStorage.removeItem('user_name');
                 localStorage.removeItem('user_class');
@@ -750,7 +1328,7 @@
                 let iLocked = i > unlockedStage;
                 if (iLocked) {
                     gridBox.innerHTML += `
-                        <div class="stage-card locked" onclick="alert('🔒 این مرحله هنوز قفل است!')">
+                        <div class="stage-card locked" onclick="playClick(); alert('🔒 این مرحله هنوز قفل است!')">
                             مرحله ${i}
                             <div class="stars">🔒 قفل</div>
                         </div>`;
@@ -761,7 +1339,7 @@
                     }
                     
                     gridBox.innerHTML += `
-                        <div class="stage-card" onclick="startQuiz(${i})">
+                        <div class="stage-card" onclick="playClick(); startQuiz(${i})">
                             مرحله ${i}
                             <div class="stars">${starsStr}</div>
                         </div>`;
@@ -779,7 +1357,6 @@
             if (currentStagePage > totalPages) currentStagePage = totalPages;
             
             localStorage.setItem('wordgame_currentStagePage', currentStagePage);
-            
             renderStages();
         }
 
@@ -790,17 +1367,25 @@
 
             document.getElementById('quiz-title').innerText = `مرحله ${stageNum}`;
             document.getElementById('scrambled-display').innerText = scrambled;
-            document.getElementById('user-word-input').value = '';
+            
+            currentTypedLetters = [];
+            hintCount = 0;
+            updateAnswerPreview();
             
             goToScreen('screen-quiz');
         }
 
         function checkWordAnswer() {
-            let userGuess = document.getElementById('user-word-input').value.trim();
+            playClick();
+            let userGuess = currentTypedLetters.join('');
             let correctWord = rawWords[activeStageNum - 1];
 
             if (userGuess === correctWord) {
-                alert('آفرین! پاسخ درست بود! 🎉');
+                if (!stageStars[activeStageNum]) {
+                    userCoins += 30;
+                    updateCoinUI();
+                }
+
                 stageStars[activeStageNum] = 3;
 
                 if (activeStageNum >= unlockedStage) {
@@ -808,11 +1393,52 @@
                 }
                 localStorage.setItem('wordgame_unlockedStage', unlockedStage);
                 localStorage.setItem('wordgame_stageStars', JSON.stringify(stageStars));
+
+                document.getElementById('win-overlay').classList.add('active');
+            } else {
+                document.getElementById('lose-overlay').classList.add('active');
+            }
+        }
+
+        function closeLosePopup() {
+            playClick();
+            document.getElementById('lose-overlay').classList.remove('active');
+            currentTypedLetters = [...rawWords[activeStageNum - 1].slice(0, hintCount)];
+            updateAnswerPreview();
+        }
+
+        function goToMenuFromLose() {
+            playClick();
+            document.getElementById('lose-overlay').classList.remove('active');
+            goToScreen('screen-stages');
+            renderStages();
+        }
+
+        function goToNextStage() {
+            playClick();
+            document.getElementById('win-overlay').classList.remove('active');
+
+            if (activeStageNum < totalStages) {
+                activeStageNum++;
+                
+                let targetPage = Math.ceil(activeStageNum / stagesPerPage);
+                if (targetPage !== currentStagePage) {
+                    currentStagePage = targetPage;
+                    localStorage.setItem('wordgame_currentStagePage', currentStagePage);
+                }
+
+                startQuiz(activeStageNum);
+            } else {
                 goToScreen('screen-stages');
                 renderStages();
-            } else {
-                alert('اشتباه زدی! ❌ کلمه رو درست وارد کن تا بتونی بری مرحله بعد.');
             }
+        }
+
+        function goToMenuFromWin() {
+            playClick();
+            document.getElementById('win-overlay').classList.remove('active');
+            goToScreen('screen-stages');
+            renderStages();
         }
 
         function exitGame() {
