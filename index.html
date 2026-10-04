@@ -5,44 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🧩 کلمات به‌ هم‌ ریخته</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;900&display=swap');
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Vazirmatn', sans-serif;
+            user-select: none;
         }
 
         body {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            background: radial-gradient(circle at center, #0f172a, #1e1b4b, #311042);
             height: 100vh;
+            width: 100vw;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            overscroll-behavior-y: none;
+            position: relative;
         }
 
-        .phone-frame {
+        .game-container {
             width: 100%;
-            max-width: 400px;
+            max-width: 480px;
             height: 100%;
-            max-height: 800px;
-            background: radial-gradient(circle, #ffeb3b, #fbc02d);
-            border-radius: 40px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            max-height: 900px;
+            /* تغییر پس‌زمینه به همون طیف رنگی تیره و شیک که فرستادی */
+            background: linear-gradient(135deg, #0f172a, #1a1b35, #22183b);
             display: flex;
             flex-direction: column;
             position: relative;
             overflow: hidden;
-            border: 8px solid #333;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.1);
         }
 
-        /* استایل بخش نمایش سکه‌ها بالای صفحه */
+        @media (min-width: 500px) {
+            .game-container {
+                height: 92vh;
+                border-radius: 36px;
+                border: 5px solid rgba(255, 255, 255, 0.15);
+            }
+        }
+
+        /* هدر سکه */
         .coin-header {
             position: absolute;
-            top: 15px;
+            top: 20px;
             left: 20px;
             right: 20px;
             display: flex;
@@ -53,23 +62,32 @@
         }
 
         .coin-badge {
-            background: rgba(255, 255, 255, 0.85);
-            padding: 5px 12px;
-            border-radius: 20px;
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 30px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 10px;
             font-weight: 900;
-            color: #d32f2f;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            color: #fbbf24;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             pointer-events: auto;
-            border: 2px solid #ff9800;
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            animation: pulseCoin 2s infinite;
+        }
+
+        @keyframes pulseCoin {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+            100% { transform: scale(1); }
         }
 
         .coin-badge img {
-            width: 22px;
-            height: 22px;
+            width: 26px;
+            height: 26px;
             object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
 
         .screen {
@@ -78,14 +96,14 @@
             align-items: center;
             justify-content: center;
             height: 100%;
-            padding: 20px;
+            padding: 24px;
             text-align: center;
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            background: radial-gradient(circle, #ffeb3b, #fbc02d);
-            animation: fadeIn 0.4s ease-in-out;
+            background: transparent;
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .screen.active {
@@ -93,80 +111,89 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+            from { opacity: 0; transform: translateY(10px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         h1 {
-            color: #d32f2f;
-            font-size: 1.8rem;
+            color: #f8fafc;
+            font-size: 2.2rem;
             margin-bottom: 20px;
-            text-shadow: 1px 1px 5px rgba(255,255,255,0.8);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            font-weight: 900;
+            letter-spacing: -0.5px;
         }
 
         .btn {
-            background: linear-gradient(45deg, #f12711, #f5af19);
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
             color: white;
             border: none;
-            padding: 14px 30px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border-radius: 50px;
+            padding: 15px 28px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            border-radius: 20px;
             cursor: pointer;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            margin: 6px;
-            width: 80%;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.35);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 8px 0;
+            width: 85%;
+            border: 1px solid rgba(255,255,255,0.15);
         }
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.45);
+            filter: brightness(1.05);
         }
 
-        .account-btn { background: linear-gradient(45deg, #8e2de2, #4a00e0); }
-        .settings-btn { background: linear-gradient(45deg, #00c6ff, #0072ff); }
-        .herobrine-btn { background: linear-gradient(45deg, #11998e, #38ef7d); }
-        .coins-shop-btn { background: linear-gradient(45deg, #f39c12, #d35400); }
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .account-btn { background: linear-gradient(135deg, #8b5cf6, #7c3aed); box-shadow: 0 10px 25px rgba(139, 92, 246, 0.35); }
+        .settings-btn { background: linear-gradient(135deg, #0ea5e9, #0284c7); box-shadow: 0 10px 25px rgba(14, 165, 233, 0.35); }
+        .herobrine-btn { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35); }
+        .coins-shop-btn { background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 10px 25px rgba(245, 158, 11, 0.35); }
         
         .exit-btn { 
-            background: linear-gradient(45deg, #ff416c, #ff4b2b);
-            font-size: 1.35rem;
-            padding: 16px 30px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            font-size: 1.2rem;
             width: 85%;
-            box-shadow: 0 10px 20px rgba(255, 65, 108, 0.4);
-            border: 2px solid #fff;
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.35);
         }
 
         .captcha-box {
-            background: white;
-            border: 2px solid #d3d3d3;
-            border-radius: 10px;
-            padding: 15px 20px;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 18px 22px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            width: 85%;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             margin-bottom: 20px;
         }
 
         .captcha-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
 
         .captcha-left input[type="checkbox"] {
-            width: 24px;
-            height: 24px;
+            width: 26px;
+            height: 26px;
             cursor: pointer;
+            accent-color: #6366f1;
+            border-radius: 6px;
         }
 
         .captcha-left span {
-            font-size: 0.95rem;
-            font-weight: bold;
-            color: #333;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #f1f5f9;
         }
 
         .captcha-logo {
@@ -174,13 +201,13 @@
             flex-direction: column;
             align-items: center;
             font-size: 0.65rem;
-            color: #555;
+            color: #94a3b8;
         }
 
         .captcha-logo div {
-            width: 24px;
-            height: 24px;
-            background: #4285F4;
+            width: 28px;
+            height: 28px;
+            background: #6366f1;
             color: white;
             border-radius: 50%;
             display: flex;
@@ -188,95 +215,123 @@
             justify-content: center;
             font-weight: bold;
             margin-bottom: 2px;
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
         }
 
         .account-box, .settings-box, .quiz-box, .coins-box {
-            background: white;
-            padding: 15px;
-            border-radius: 20px;
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(12px);
+            padding: 22px;
+            border-radius: 28px;
             width: 100%;
-            color: #333;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            color: #f1f5f9;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             text-align: right;
-            max-height: 520px;
+            max-height: 580px;
             overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .account-box label {
             font-size: 0.95rem;
-            font-weight: bold;
-            color: #d32f2f;
+            font-weight: 700;
+            color: #cbd5e1;
         }
 
         .account-box input, .account-box select {
             width: 100%;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 12px;
+            padding: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
             font-size: 1rem;
             font-family: 'Vazirmatn', sans-serif;
             outline: none;
+            background: rgba(15, 23, 42, 0.6);
+            color: #fff;
+            transition: all 0.2s;
+        }
+
+        .account-box input:focus, .account-box select:focus {
+            border-color: #8b5cf6;
+            background: rgba(15, 23, 42, 0.9);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2);
         }
 
         .profile-card {
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-            padding: 12px;
-            border-radius: 15px;
-            border: 2px solid #2196F3;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(124, 58, 237, 0.3));
+            padding: 16px;
+            border-radius: 20px;
+            border: 2px solid rgba(196, 181, 253, 0.3);
             text-align: center;
+            box-shadow: inset 0 2px 6px rgba(255,255,255,0.05);
+            color: #e2e8f0;
         }
 
         .setting-item {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 6px;
             font-size: 0.95rem;
-            font-weight: bold;
+            font-weight: 700;
+            color: #cbd5e1;
         }
 
         .setting-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-weight: 700;
+            color: #cbd5e1;
         }
 
         .setting-item input[type="range"] {
             width: 100%;
             cursor: pointer;
+            accent-color: #0ea5e9;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
         }
 
         .danger-action-btn {
-            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            background: linear-gradient(135deg, #f87171, #ef4444);
             color: white;
             border: none;
-            padding: 10px;
+            padding: 14px;
             font-size: 0.95rem;
-            font-weight: bold;
-            border-radius: 12px;
+            font-weight: 700;
+            border-radius: 16px;
             cursor: pointer;
             width: 100%;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 15px rgba(239, 68, 68, 0.25);
+            transition: transform 0.15s;
+        }
+
+        .danger-action-btn:hover {
+            transform: scale(1.02);
+            filter: brightness(1.05);
         }
 
         .switch {
             position: relative;
             display: inline-block;
-            width: 50px;
-            height: 26px;
+            width: 52px;
+            height: 28px;
         }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider-toggle {
             position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #ccc; transition: .4s; border-radius: 34px;
+            background-color: rgba(255,255,255,0.2); transition: .3s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 34px;
         }
         .slider-toggle:before {
-            position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px;
-            background-color: white; transition: .4s; border-radius: 50%;
+            position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px;
+            background-color: white; transition: .3s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 50%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
-        input:checked + .slider-toggle { background-color: #2196F3; }
+        input:checked + .slider-toggle { background-color: #6366f1; }
         input:checked + .slider-toggle:before { transform: translateX(24px); }
 
         .subjects-grid {
@@ -287,17 +342,24 @@
         }
 
         .subject-btn {
-            background: rgba(255, 255, 255, 0.8);
-            border: 2px solid #ff9800;
-            color: #d32f2f;
-            padding: 20px;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: #f8fafc;
+            padding: 22px;
             font-size: 1.3rem;
-            font-weight: bold;
-            border-radius: 20px;
+            font-weight: 900;
+            border-radius: 24px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.25s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
-        .subject-btn:hover { background: white; transform: scale(1.05); }
+        .subject-btn:hover { 
+            background: rgba(30, 41, 59, 1); 
+            border-color: #6366f1;
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
+            color: #818cf8;
+        }
 
         .stages-container { width: 100%; margin-bottom: 10px; }
         
@@ -306,41 +368,47 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 12px;
             width: 100%;
-            max-width: 350px;
+            max-width: 380px;
             margin: 0 auto 15px auto;
             direction: rtl;
         }
 
         .stage-card {
-            background: #4caf50;
-            border: 3px solid #fff;
-            border-radius: 18px;
-            padding: 15px 5px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 22px;
+            padding: 16px 6px;
             color: white;
-            font-size: 1.1rem;
-            font-weight: bold;
+            font-size: 1.15rem;
+            font-weight: 900;
             cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            transition: transform 0.2s;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .stage-card:hover { transform: scale(1.03); }
+        .stage-card:hover { 
+            transform: translateY(-4px) scale(1.03); 
+            box-shadow: 0 12px 25px rgba(16, 185, 129, 0.45);
+        }
         
         .stage-card.locked {
-            background: #9e9e9e;
-            border: 3px dashed #e0e0e0;
+            background: linear-gradient(135deg, #475569, #334155);
+            border: 2px dashed rgba(255,255,255,0.2);
             cursor: not-allowed;
+            box-shadow: none;
+            opacity: 0.8;
         }
         
         .stars {
-            font-size: 0.75rem;
-            color: #ffeb3b;
-            margin-top: 4px;
-            min-height: 15px;
+            font-size: 0.8rem;
+            color: #fde047;
+            margin-top: 5px;
+            min-height: 16px;
             letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
         .pagination-box {
@@ -348,175 +416,184 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            max-width: 350px;
+            max-width: 380px;
             margin: 0 auto;
             padding: 0 5px;
         }
 
         .page-nav-btn {
-            background: #ffa726; 
+            background: linear-gradient(135deg, #f59e0b, #d97706); 
             color: white; 
             border: none; 
-            padding: 10px 22px;
-            border-radius: 30px; 
-            font-weight: bold; 
+            padding: 10px 20px;
+            border-radius: 20px; 
+            font-weight: 700; 
             font-size: 0.95rem;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 15px rgba(245, 158, 11, 0.3);
+            transition: transform 0.15s;
         }
-        .page-nav-btn:disabled { background: #bdbdbd; cursor: not-allowed; box-shadow: none; }
+        .page-nav-btn:hover { transform: translateY(-2px); }
+        .page-nav-btn:disabled { background: #334155; cursor: not-allowed; box-shadow: none; transform: none; opacity: 0.5; }
         
         .page-indicator {
             font-weight: 900;
-            color: #3b2c00;
+            color: #f1f5f9;
             font-size: 1.1rem;
-            display: inline-block; /* فعال و نمایش داده شدن شماره صفحه */
+            background: rgba(30, 41, 59, 0.8);
+            padding: 6px 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
         .back-icon-btn {
-            position: absolute; bottom: 15px; left: 15px; background: #f44336;
-            color: white; border: none; width: 42px; height: 42px; border-radius: 50%;
-            font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            position: absolute; bottom: 20px; left: 20px; 
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white; border: none; width: 50px; height: 50px; border-radius: 50%;
+            font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10;
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+            transition: transform 0.2s;
         }
+        .back-icon-btn:hover { transform: scale(1.1); }
 
         .quiz-header-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            margin-bottom: 2px;
+            margin-bottom: 6px;
         }
 
-        .quiz-box h3 { margin-bottom: 0; color: #388e3c; font-size: 0.85rem; }
+        .quiz-box h3 { margin-bottom: 0; color: #34d399; font-size: 0.95rem; font-weight: 900; }
 
         .hint-btn {
-            background: linear-gradient(135deg, #ffb300, #ff8f00);
-            border: 2px solid #fff;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border: none;
             color: white;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: bold;
+            padding: 6px 14px;
+            border-radius: 14px;
+            font-size: 0.85rem;
+            font-weight: 900;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 4px;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
             transition: transform 0.1s;
         }
         .hint-btn:active { transform: scale(0.95); }
-        .hint-btn img { width: 16px; height: 16px; object-fit: contain; }
+        .hint-btn img { width: 18px; height: 18px; object-fit: contain; }
         
         .scrambled-word {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             font-weight: 900;
-            color: #d32f2f;
-            background: #ffe082;
-            padding: 3px;
-            border-radius: 8px;
-            letter-spacing: 2px;
-            margin-bottom: 4px;
-            border: 2px dashed #f57c00;
+            color: #f87171;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 12px 16px;
+            border-radius: 18px;
+            letter-spacing: 4px;
+            margin-bottom: 12px;
+            border: 2px dashed rgba(248, 113, 113, 0.4);
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
         }
 
         .answer-preview-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 4px;
-            min-height: 36px;
-            background: #fff;
-            border: 2px solid #4caf50;
-            border-radius: 10px;
-            padding: 4px;
-            margin-bottom: 4px;
+            gap: 6px;
+            min-height: 52px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 2px solid rgba(52, 211, 153, 0.4);
+            border-radius: 18px;
+            padding: 8px;
+            margin-bottom: 12px;
             direction: rtl;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
         }
 
         .answer-slot {
-            width: 30px;
-            height: 30px;
-            background: #e8f5e9;
-            border: 2px solid #81c784;
-            border-radius: 6px;
+            width: 38px;
+            height: 38px;
+            background: rgba(6, 95, 70, 0.4);
+            border: 2px solid #34d399;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
-            font-weight: bold;
-            color: #2e7d32;
-        }
-
-        .answer-slot.hint-slot {
-            background: #fff9c4;
-            border-color: #fbc02d;
-            color: #f57f17;
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: #a7f3d0;
+            box-shadow: 0 4px 8px rgba(52, 211, 153, 0.15);
         }
 
         .wooden-keyboard {
-            background: linear-gradient(135deg, #d7ccc8, #bcaaa4);
-            padding: 8px;
-            border-radius: 16px;
-            border: 3px solid #8d6e63;
+            background: rgba(15, 23, 42, 0.9);
+            padding: 12px;
+            border-radius: 22px;
+            border: 2px solid rgba(255,255,255,0.1);
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 6px;
             margin-bottom: 2px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
 
         .kb-row {
             display: flex;
             justify-content: center;
-            gap: 4px;
+            gap: 5px;
         }
 
         .kb-key {
-            background: linear-gradient(135deg, #ffe0b2, #ffcc80);
-            border: 2px solid #f57c00;
-            color: #5d4037;
-            font-size: 1.1rem;
+            background: linear-gradient(135deg, #334155, #1e293b);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #f1f5f9;
+            font-size: 1.15rem;
             font-weight: 900;
-            height: 38px;
+            height: 44px;
             flex: 1;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 3px 5px rgba(0,0,0,0.15);
-            transition: all 0.1s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: all 0.12s ease;
         }
 
         .kb-key:hover {
-            background: linear-gradient(135deg, #ffe082, #ffb300);
+            background: #475569;
             transform: translateY(-2px);
+            border-color: #6366f1;
+            color: #fff;
         }
 
         .kb-key:active {
-            background: #ffa000;
             transform: translateY(2px);
             box-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
 
         .kb-key.action-key {
-            background: linear-gradient(135deg, #b0bec5, #90a4ae);
-            color: #fff;
-            border-color: #78909c;
+            background: linear-gradient(135deg, #475569, #334155);
+            color: #cbd5e1;
+            border-color: #475569;
             flex: 1.5;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
+        .kb-key.action-key:hover { color: white; background: linear-gradient(135deg, #64748b, #475569); }
 
         .kb-key.submit-key {
-            background: linear-gradient(135deg, #66bb6a, #43a047);
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
-            border-color: #2e7d32;
+            border-color: #059669;
             flex: 3;
-            font-size: 1.1rem;
-            height: 40px;
-            box-shadow: 0 4px 10px rgba(67, 160, 71, 0.4);
+            font-size: 1.15rem;
+            height: 46px;
+            box-shadow: 0 6px 15px rgba(16, 185, 129, 0.35);
         }
+        .kb-key.submit-key:hover { color: white; filter: brightness(1.05); }
 
         .win-overlay {
             position: absolute;
@@ -524,7 +601,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.65);
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
             display: none;
             justify-content: center;
             align-items: center;
@@ -542,14 +620,15 @@
         }
 
         .win-card {
-            background: white;
-            padding: 25px 20px;
-            border-radius: 25px;
-            width: 85%;
-            max-width: 320px;
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(12px);
+            padding: 30px 24px;
+            border-radius: 32px;
+            width: 88%;
+            max-width: 340px;
             text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            border: 4px solid #fbc02d;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            border: 3px solid #fde047;
             animation: popUpWin 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
@@ -559,21 +638,23 @@
         }
 
         .win-card h2 {
-            color: #2e7d32;
-            font-size: 1.6rem;
-            margin-bottom: 10px;
+            color: #34d399;
+            font-size: 1.7rem;
+            margin-bottom: 6px;
+            font-weight: 900;
         }
 
         .win-stars-container {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            font-size: 2.5rem;
-            margin: 15px 0;
+            gap: 12px;
+            font-size: 2.8rem;
+            margin: 12px 0;
         }
 
         .win-star {
             animation: bounceStar 0.6s alternate infinite;
+            filter: drop-shadow(0 6px 12px rgba(253, 224, 71, 0.6));
         }
 
         .win-star:nth-child(2) { animation-delay: 0.2s; }
@@ -581,19 +662,19 @@
 
         @keyframes bounceStar {
             from { transform: translateY(0) scale(1); }
-            to { transform: translateY(-8px) scale(1.1); }
+            to { transform: translateY(-8px) scale(1.15); }
         }
 
         .next-stage-btn {
-            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             border: none;
-            padding: 12px 15px;
-            font-size: 1.05rem;
-            font-weight: bold;
-            border-radius: 50px;
+            padding: 14px 18px;
+            font-size: 1.1rem;
+            font-weight: 900;
+            border-radius: 20px;
             cursor: pointer;
-            box-shadow: 0 6px 15px rgba(39, 174, 96, 0.4);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);
             transition: transform 0.2s;
         }
 
@@ -606,7 +687,7 @@
     <audio id="stage-music" src="kki3.ogg" loop></audio>
     <audio id="click-sound" src="kil1.wav"></audio>
 
-    <div class="phone-frame">
+    <div class="game-container">
         
         <div class="coin-header">
             <div class="coin-badge">
@@ -623,31 +704,31 @@
                     <span class="win-star">⭐</span>
                     <span class="win-star">⭐</span>
                 </div>
-                <p style="color: #666; margin-bottom: 15px; font-size: 0.95rem;">پاسخ درست بود و <b style="color: #f5af19;">۳۰ سکه</b> جایزه گرفتی! <img src="Coin.png" style="width: 16px; vertical-align: middle;" alt="سکه"></p>
+                <p style="color: #94a3b8; margin-bottom: 20px; font-size: 0.95rem;">پاسخ درست بود و <b style="color: #fbbf24;">۳۰ سکه</b> جایزه گرفتی! <img src="Coin.png" style="width: 18px; vertical-align: middle;" alt="سکه"></p>
                 
-                <div style="display: flex; gap: 8px;">
+                <div style="display: flex; gap: 10px;">
                     <button class="next-stage-btn" onclick="goToNextStage()" style="flex: 1;">ادامه ➡</button>
-                    <button class="btn" onclick="goToMenuFromWin()" style="flex: 1; margin: 0; font-size: 1.05rem; padding: 12px 10px; background: linear-gradient(45deg, #00c6ff, #0072ff);">منو 🏠</button>
+                    <button class="btn" onclick="goToMenuFromWin()" style="flex: 1; margin: 0; font-size: 1.1rem; padding: 12px 10px; background: linear-gradient(135deg, #0ea5e9, #0284c7); box-shadow: 0 6px 15px rgba(14,165,233,0.35);">منو 🏠</button>
                 </div>
             </div>
         </div>
 
         <div id="lose-overlay" class="win-overlay">
-            <div class="win-card" style="border-color: #f44336;">
-                <h2 style="color: #f44336;">اشتباه زدی! ❌</h2>
-                <div style="font-size: 3rem; margin: 15px 0;">😢</div>
-                <p style="color: #666; margin-bottom: 15px; font-size: 0.95rem;">پاسخ نادرست بود. هیچ ستاره‌ای نگرفتی!</p>
+            <div class="win-card" style="border-color: #f87171;">
+                <h2 style="color: #f87171;">اشتباه زدی! ❌</h2>
+                <div style="font-size: 3.2rem; margin: 12px 0;">😢</div>
+                <p style="color: #94a3b8; margin-bottom: 20px; font-size: 0.95rem;">پاسخ نادرست بود. هیچ ستاره‌ای نگرفتی!</p>
                 
-                <div style="display: flex; gap: 8px;">
-                    <button class="next-stage-btn" onclick="closeLosePopup()" style="flex: 1; background: linear-gradient(45deg, #f39c12, #e67e22);">تلاش دوباره 🔄</button>
-                    <button class="btn" onclick="goToMenuFromLose()" style="flex: 1; margin: 0; font-size: 1.05rem; padding: 12px 10px; background: linear-gradient(45deg, #00c6ff, #0072ff);">منو 🏠</button>
+                <div style="display: flex; gap: 10px;">
+                    <button class="next-stage-btn" onclick="closeLosePopup()" style="flex: 1; background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 8px 20px rgba(245,158,11,0.35);">تلاش دوباره 🔄</button>
+                    <button class="btn" onclick="goToMenuFromLose()" style="flex: 1; margin: 0; font-size: 1.1rem; padding: 12px 10px; background: linear-gradient(135deg, #0ea5e9, #0284c7); box-shadow: 0 6px 15px rgba(14,165,233,0.35);">منو 🏠</button>
                 </div>
             </div>
         </div>
 
         <div id="screen-captcha" class="screen active">
-            <h1 style="font-size: 1.5rem; margin-bottom: 10px;">🔒 تایید ورود</h1>
-            <p style="color: #444; margin-bottom: 20px; font-size: 0.95rem;">برای ورود به بازی، لطفا تایید کنید:</p>
+            <h1 style="font-size: 1.6rem; margin-bottom: 12px;">🔒 تایید ورود</h1>
+            <p style="color: #94a3b8; margin-bottom: 22px; font-size: 1rem;">برای ورود به بازی، لطفا تایید کنید:</p>
             
             <div class="captcha-box">
                 <div class="captcha-left">
@@ -663,7 +744,7 @@
 
         <div id="screen-home" class="screen">
             <h1>🧩 کلمات به‌ هم‌ ریخته</h1>
-            <div id="welcome-msg" style="font-weight: bold; color: #333; margin-bottom: 10px; font-size: 1.1rem;"></div>
+            <div id="welcome-msg" style="font-weight: 700; color: #94a3b8; margin-bottom: 14px; font-size: 1.1rem;"></div>
             <button class="btn" onclick="playClickAndGo('screen-subjects')">شروع بازی 🔔</button>
             <button class="btn coins-shop-btn" onclick="playClickAndGo('screen-coins')">💰 سکه رایگان</button>
             <button class="btn account-btn" onclick="playClickAndGo('screen-account')">اکانت 👤</button>
@@ -672,18 +753,17 @@
             <button class="btn exit-btn" onclick="playClickAndExit()">خروج 🚪</button>
         </div>
 
-        <!-- صفحه سکه رایگان -->
         <div id="screen-coins" class="screen">
             <h1>💰 سکه رایگان</h1>
             <div class="coins-box">
-                <p style="font-size: 0.95rem; color: #555; text-align: center;">با ۱ ساعت بازی کردن، ۳۰۰ سکه رایگان هدیه بگیر!</p>
+                <p style="font-size: 0.95rem; color: #94a3b8; text-align: center;">با ۱ ساعت بازی کردن، ۳۰۰ سکه رایگان هدیه بگیر!</p>
                 
-                <div style="background: #fff3e0; border: 2px dashed #ff9800; border-radius: 15px; padding: 15px; text-align: center;">
-                    <div style="font-size: 0.9rem; color: #e65100; font-weight: bold; margin-bottom: 5px;">زمان باقیمانده تا جایزه بعدی:</div>
-                    <div id="playtime-timer" style="font-size: 1.6rem; font-weight: 900; color: #d32f2f; direction: ltr;">01:00:00</div>
+                <div style="background: rgba(245, 158, 11, 0.1); border: 2px dashed #f59e0b; border-radius: 20px; padding: 18px; text-align: center;">
+                    <div style="font-size: 0.9rem; color: #fbbf24; font-weight: 700; margin-bottom: 6px;">زمان باقیمانده تا جایزه بعدی:</div>
+                    <div id="playtime-timer" style="font-size: 1.8rem; font-weight: 900; color: #f87171; direction: ltr;">01:00:00</div>
                 </div>
 
-                <button id="claim-coin-btn" class="btn" style="width: 100%; margin: 0; background: #bdbdbd; cursor: not-allowed;" onclick="claimPlaytimeCoins()" disabled>دریافت ۳۰۰ سکه <img src="Coin.png" style="width: 20px; vertical-align: middle;" alt="سکه"></button>
+                <button id="claim-coin-btn" class="btn" style="width: 100%; margin: 0; background: #334155; cursor: not-allowed;" onclick="claimPlaytimeCoins()" disabled>دریافت ۳۰۰ سکه <img src="Coin.png" style="width: 20px; vertical-align: middle;" alt="سکه"></button>
             </div>
             <button class="back-icon-btn" onclick="playClickAndGo('screen-home')">⬅</button>
         </div>
@@ -702,7 +782,7 @@
                     <option value="ششم ۱">ششم ۱</option>
                 </select>
 
-                <button class="btn" style="width: 100%; margin-top: 5px; font-size: 1.1rem; padding: 10px;" onclick="saveAccountInfo()">ذخیره اطلاعات ✅</button>
+                <button class="btn" style="width: 100%; margin-top: 5px; font-size: 1.1rem; padding: 14px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); box-shadow: 0 8px 20px rgba(139,92,246,0.35);" onclick="saveAccountInfo()">ذخیره اطلاعات ✅</button>
             </div>
             <button class="back-icon-btn" onclick="playClickAndGo('screen-home')">⬅</button>
         </div>
@@ -733,7 +813,7 @@
                     <input type="range" id="click-volume-slider" min="0" max="1" step="0.05" value="1" oninput="changeClickVolume()">
                 </div>
 
-                <hr style="border: 0; border-top: 1px solid #eee;">
+                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1);">
                 <div>
                     <button class="danger-action-btn" onclick="resetProgress()">از دست دادن پیشرفت‌ها ⚠️</button>
                 </div>
@@ -753,7 +833,7 @@
         </div>
 
         <div id="screen-stages" class="screen">
-            <h1 id="stages-title-text" style="font-size: 1.5rem; margin-bottom: 15px;">مراحل بازی</h1>
+            <h1 id="stages-title-text" style="font-size: 1.6rem; margin-bottom: 15px;">مراحل بازی</h1>
             <div class="stages-container">
                 <div class="stages-grid" id="stages-grid-box"></div>
                 <div class="pagination-box">
@@ -766,7 +846,7 @@
         </div>
 
         <div id="screen-quiz" class="screen">
-            <h1 id="quiz-title" style="font-size: 0.95rem; margin-bottom: 2px;">مرحله</h1>
+            <h1 id="quiz-title" style="font-size: 1.1rem; margin-bottom: 4px; color: #f87171;">مرحله</h1>
             <div class="quiz-box">
                 <div class="quiz-header-row">
                     <h3>حروف به‌هم‌ریخته زیر را مرتب کنید:</h3>
@@ -1002,7 +1082,7 @@
         function updateAccountUI() {
             document.getElementById('user-name-input').value = userName;
             document.getElementById('user-class-select').value = userClass;
-            document.getElementById('profile-display').innerHTML = `<b>${userName}</b><br><span style="color: #1976d2;">پایه ${userClass}</span>`;
+            document.getElementById('profile-display').innerHTML = `<b>${userName}</b><br><span style="color: #c4b5fd;">پایه ${userClass}</span>`;
             document.getElementById('welcome-msg').innerText = `سلام، ${userName} 👋`;
         }
 
@@ -1053,12 +1133,12 @@
             if (claimBtn) {
                 if (playtimeSeconds >= PLAYTIME_REQUIRED) {
                     claimBtn.disabled = false;
-                    claimBtn.style.background = 'linear-gradient(45deg, #27ae60, #2ecc71)';
+                    claimBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
                     claimBtn.style.cursor = 'pointer';
                     claimBtn.innerHTML = 'دریافت ۳۰۰ سکه رایگان! <img src="Coin.png" style="width: 20px; vertical-align: middle;" alt="سکه">';
                 } else {
                     claimBtn.disabled = true;
-                    claimBtn.style.background = '#bdbdbd';
+                    claimBtn.style.background = '#334155';
                     claimBtn.style.cursor = 'not-allowed';
                     claimBtn.innerHTML = 'دریافت ۳۰۰ سکه <img src="Coin.png" style="width: 20px; vertical-align: middle;" alt="سکه">';
                 }
@@ -2835,215 +2915,168 @@
             "گیره‌سر", "کش‌سر", "تل‌سر", "هدبند"
         ];
 
-        const totalStages = rawWords.length;
-        const totalPages = Math.ceil(totalStages / stagesPerPage);
+        let selectedSubject = 'کلمات';
+        let currentStageIndex = 0;
+        let typedLetters = [];
+        let hintUsedCurrentStage = false;
+
+        function openStages(subjectName) {
+            selectedSubject = subjectName;
+            document.getElementById('stages-title-text').innerText = `مراحل ${subjectName}`;
+            goToScreen('screen-stages');
+            renderStages();
+        }
+
+        function renderStages() {
+            const gridBox = document.getElementById('stages-grid-box');
+            gridBox.innerHTML = '';
+
+            let maxUnlockedStage = localStorage.getItem('wordgame_maxUnlocked') ? parseInt(localStorage.getItem('wordgame_maxUnlocked')) : 0;
+            
+            let startIndex = (currentStagePage - 1) * stagesPerPage;
+            let endIndex = startIndex + stagesPerPage;
+
+            for (let i = startIndex; i < endIndex; i++) {
+                if (i >= rawWords.length) break;
+
+                let isLocked = i > maxUnlockedStage;
+                let starsCount = localStorage.getItem(`wordgame_star_${i}`) ? parseInt(localStorage.getItem(`wordgame_star_${i}`)) : 0;
+                
+                let starsStr = '';
+                if (!isLocked && starsCount > 0) {
+                    for(let s = 0; s < starsCount; s++) starsStr += '⭐';
+                } else if(!isLocked) {
+                    starsStr = '☆☆☆';
+                }
+
+                let card = document.createElement('div');
+                card.className = `stage-card ${isLocked ? 'locked' : ''}`;
+                card.innerHTML = `
+                    <span>مرحله ${i + 1}</span>
+                    <span class="stars">${isLocked ? '🔒' : starsStr}</span>
+                `;
+
+                if (!isLocked) {
+                    card.onclick = () => {
+                        playClick();
+                        startQuizStage(i);
+                    };
+                }
+
+                gridBox.appendChild(card);
+            }
+
+            document.getElementById('page-indicator').innerText = `صفحه ${currentStagePage}`;
+            document.getElementById('prev-page-btn').disabled = currentStagePage === 1;
+            document.getElementById('next-page-btn').disabled = endIndex >= rawWords.length;
+        }
+
+        function changeStagePage(direction) {
+            currentStagePage += direction;
+            if (currentStagePage < 1) currentStagePage = 1;
+            localStorage.setItem('wordgame_currentStagePage', currentStagePage);
+            renderStages();
+        }
+
+        function startQuizStage(stageIdx) {
+            currentStageIndex = stageIdx;
+            typedLetters = [];
+            hintUsedCurrentStage = false;
+            
+            document.getElementById('quiz-title').innerText = `مرحله ${stageIdx + 1}`;
+            
+            let targetWord = rawWords[stageIdx];
+            let scrambled = scrambleWord(targetWord);
+            
+            document.getElementById('scrambled-display').innerText = scrambled;
+            renderAnswerPreview();
+            goToScreen('screen-quiz');
+        }
 
         function scrambleWord(word) {
             let arr = word.split('');
-            let scrambled;
-            do {
-                for (let i = arr.length - 1; i > 0; i--) {
-                    let j = Math.floor(Math.random() * (i + 1));
-                    [arr[i], arr[j]] = [arr[j], arr[i]];
-                }
-                scrambled = arr.join(' ');
-            } while (scrambled === word && word.length > 1);
+            for (let i = arr.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            let scrambled = arr.join(' ');
+            if (scrambled === word && word.length > 1) {
+                return scrambleWord(word);
+            }
             return scrambled;
         }
 
-        let unlockedStage = localStorage.getItem('wordgame_unlockedStage') ? parseInt(localStorage.getItem('wordgame_unlockedStage')) : 1;
-        let stageStars = localStorage.getItem('wordgame_stageStars') ? JSON.parse(localStorage.getItem('wordgame_stageStars')) : {};
+        function renderAnswerPreview() {
+            let targetWord = rawWords[currentStageIndex];
+            let previewContainer = document.getElementById('answer-preview');
+            previewContainer.innerHTML = '';
 
-        let activeStageNum = 1;
-        let currentTypedLetters = [];
-        let hintCount = 0;
+            for (let i = 0; i < targetWord.length; i++) {
+                let slot = document.createElement('div');
+                slot.className = 'answer-slot';
+                if (typedLetters[i]) {
+                    slot.innerText = typedLetters[i];
+                }
+                previewContainer.appendChild(slot);
+            }
+        }
 
-        function typeKey(char) {
+        function typeKey(letter) {
             playClick();
-            let correctWord = rawWords[activeStageNum - 1];
-            if (currentTypedLetters.length >= correctWord.length) return;
-            
-            currentTypedLetters.push(char);
-            updateAnswerPreview();
+            let targetWord = rawWords[currentStageIndex];
+            if (typedLetters.length < targetWord.length) {
+                typedLetters.push(letter);
+                renderAnswerPreview();
+            }
         }
 
         function deleteLastLetter() {
             playClick();
-            if (currentTypedLetters.length <= hintCount) {
-                return; 
-            }
-            currentTypedLetters.pop();
-            updateAnswerPreview();
-        }
-
-        function updateAnswerPreview() {
-            const previewContainer = document.getElementById('answer-preview');
-            previewContainer.innerHTML = '';
-            
-            let correctWord = rawWords[activeStageNum - 1];
-            for (let i = 0; i < correctWord.length; i++) {
-                const slot = document.createElement('div');
-                slot.className = 'answer-slot';
-                
-                if (currentTypedLetters[i]) {
-                    slot.innerText = currentTypedLetters[i];
-                    if (i < hintCount) {
-                        slot.classList.add('hint-slot');
-                    }
-                }
-                previewContainer.appendChild(slot);
+            if (typedLetters.length > 0) {
+                typedLetters.pop();
+                renderAnswerPreview();
             }
         }
 
         function useHint() {
             playClick();
             if (userCoins < 50) {
-                alert("سکه‌هایت برای راهنما کافی نیست! (حداقل ۵۰ سکه نیاز داری)");
+                alert('سکه هات برای راهنما کافی نیست! (۵۰ سکه نیاز است)');
                 return;
             }
 
-            let correctWord = rawWords[activeStageNum - 1];
-            let nextIndex = currentTypedLetters.length;
-            if (nextIndex >= correctWord.length) {
-                alert("تمام خانه‌های پاسخ پر شده‌اند!");
-                return;
-            }
+            let targetWord = rawWords[currentStageIndex];
+            if (typedLetters.length >= targetWord.length) return;
 
             userCoins -= 50;
             updateCoinUI();
 
-            hintCount++;
-            let nextChar = correctWord[nextIndex];
-            currentTypedLetters.push(nextChar);
-            updateAnswerPreview();
-        }
-
-        function resetProgress() {
-            playClick();
-            if (confirm("آیا مطمئنید می‌خواهید پیشرفت‌ها را پاک کنید؟")) {
-                localStorage.removeItem('wordgame_unlockedStage');
-                localStorage.removeItem('wordgame_stageStars');
-                localStorage.removeItem('wordgame_currentStagePage');
-                localStorage.removeItem('wordgame_coins');
-                localStorage.removeItem('wordgame_playtime');
-                unlockedStage = 1;
-                currentStagePage = 1;
-                stageStars = {};
-                userCoins = 0;
-                playtimeSeconds = 0;
-                updateCoinUI();
-                updatePlaytimeUI();
-                renderStages();
-                alert("پیشرفت‌ها ریست شد! 🔄");
-            }
-        }
-
-        function resetAccount() {
-            playClick();
-            if (confirm("آیا اکانت ریست شود؟")) {
-                localStorage.removeItem('user_name');
-                localStorage.removeItem('user_class');
-                userName = 'علی';
-                userClass = 'نهم ۱';
-                updateAccountUI();
-                alert("اکانت ریست شد!");
-            }
-        }
-
-        function openStages(subjectName) {
-            currentStagePage = localStorage.getItem('wordgame_currentStagePage') ? parseInt(localStorage.getItem('wordgame_currentStagePage')) : 1;
-            document.getElementById('stages-title-text').innerText = 'مراحل ' + subjectName;
-            renderStages();
-            goToScreen('screen-stages');
-        }
-
-        function renderStages() {
-            const gridBox = document.getElementById('stages-grid-box');
-            gridBox.innerHTML = '';
-            
-            const startIndex = (currentStagePage - 1) * stagesPerPage;
-            let pageStages = [];
-            for (let i = 0; i < stagesPerPage; i++) {
-                let sNum = startIndex + i + 1;
-                if (sNum <= totalStages) {
-                    pageStages.push(sNum);
-                }
-            }
-
-            pageStages.forEach(i => {
-                let iLocked = i > unlockedStage;
-                if (iLocked) {
-                    gridBox.innerHTML += `
-                        <div class="stage-card locked" onclick="playClick(); alert('🔒 این مرحله هنوز قفل است!')">
-                            مرحله ${i}
-                            <div class="stars">🔒 قفل</div>
-                        </div>`;
-                } else {
-                    let starsStr = '';
-                    if (stageStars[i] !== undefined) {
-                        starsStr = '⭐'.repeat(stageStars[i]);
-                    }
-                    
-                    gridBox.innerHTML += `
-                        <div class="stage-card" onclick="playClick(); startQuiz(${i})">
-                            مرحله ${i}
-                            <div class="stars">${starsStr}</div>
-                        </div>`;
-                }
-            });
-
-            // نمایش شماره صفحه فقط به صورت «صفحه X»
-            const pageIndicator = document.getElementById('page-indicator');
-            if(pageIndicator) {
-                pageIndicator.innerText = `صفحه ${currentStagePage}`;
-            }
-
-            document.getElementById('prev-page-btn').disabled = (currentStagePage === 1);
-            document.getElementById('next-page-btn').disabled = (currentStagePage === totalPages);
-        }
-
-        function changeStagePage(direction) {
-            currentStagePage += direction;
-            if (currentStagePage < 1) currentStagePage = 1;
-            if (currentStagePage > totalPages) currentStagePage = totalPages;
-            
-            localStorage.setItem('wordgame_currentStagePage', currentStagePage);
-            renderStages();
-        }
-
-        function startQuiz(stageNum) {
-            activeStageNum = stageNum;
-            let correctWord = rawWords[stageNum - 1];
-            let scrambled = scrambleWord(correctWord);
-
-            document.getElementById('quiz-title').innerText = `مرحله ${stageNum}`;
-            document.getElementById('scrambled-display').innerText = scrambled;
-            
-            currentTypedLetters = [];
-            hintCount = 0;
-            updateAnswerPreview();
-            
-            goToScreen('screen-quiz');
+            let nextIndex = typedLetters.length;
+            typedLetters.push(targetWord[nextIndex]);
+            hintUsedCurrentStage = true;
+            renderAnswerPreview();
         }
 
         function checkWordAnswer() {
             playClick();
-            let userGuess = currentTypedLetters.join('');
-            let correctWord = rawWords[activeStageNum - 1];
+            let targetWord = rawWords[currentStageIndex];
+            let userWord = typedLetters.join('');
 
-            if (userGuess === correctWord) {
-                if (!stageStars[activeStageNum]) {
-                    userCoins += 30;
-                    updateCoinUI();
+            if (userWord === targetWord) {
+                let earnedCoins = 30;
+                userCoins += earnedCoins;
+                updateCoinUI();
+
+                let maxUnlocked = localStorage.getItem('wordgame_maxUnlocked') ? parseInt(localStorage.getItem('wordgame_maxUnlocked')) : 0;
+                if (currentStageIndex >= maxUnlocked) {
+                    localStorage.setItem('wordgame_maxUnlocked', currentStageIndex + 1);
                 }
 
-                stageStars[activeStageNum] = 3;
-
-                if (activeStageNum >= unlockedStage) {
-                    unlockedStage = activeStageNum + 1;
+                let currentStars = localStorage.getItem(`wordgame_star_${currentStageIndex}`) ? parseInt(localStorage.getItem(`wordgame_star_${currentStageIndex}`)) : 0;
+                let newStars = hintUsedCurrentStage ? 2 : 3;
+                if (newStars > currentStars) {
+                    localStorage.setItem(`wordgame_star_${currentStageIndex}`, newStars);
                 }
-                localStorage.setItem('wordgame_unlockedStage', unlockedStage);
-                localStorage.setItem('wordgame_stageStars', JSON.stringify(stageStars));
 
                 document.getElementById('win-overlay').classList.add('active');
             } else {
@@ -3051,35 +3084,13 @@
             }
         }
 
-        function closeLosePopup() {
-            playClick();
-            document.getElementById('lose-overlay').classList.remove('active');
-            currentTypedLetters = [...rawWords[activeStageNum - 1].slice(0, hintCount)];
-            updateAnswerPreview();
-        }
-
-        function goToMenuFromLose() {
-            playClick();
-            document.getElementById('lose-overlay').classList.remove('active');
-            goToScreen('screen-stages');
-            renderStages();
-        }
-
         function goToNextStage() {
             playClick();
             document.getElementById('win-overlay').classList.remove('active');
-
-            if (activeStageNum < totalStages) {
-                activeStageNum++;
-                
-                let targetPage = Math.ceil(activeStageNum / stagesPerPage);
-                if (targetPage !== currentStagePage) {
-                    currentStagePage = targetPage;
-                    localStorage.setItem('wordgame_currentStagePage', currentStagePage);
-                }
-
-                startQuiz(activeStageNum);
+            if (currentStageIndex + 1 < rawWords.length) {
+                startQuizStage(currentStageIndex + 1);
             } else {
+                alert('تبریک! تمام مراحل بازی را به پایان رساندی! 🏆');
                 goToScreen('screen-stages');
                 renderStages();
             }
@@ -3088,13 +3099,53 @@
         function goToMenuFromWin() {
             playClick();
             document.getElementById('win-overlay').classList.remove('active');
-            goToScreen('screen-stages');
-            renderStages();
+            goToScreen('screen-home');
+        }
+
+        function closeLosePopup() {
+            playClick();
+            document.getElementById('lose-overlay').classList.remove('active');
+            typedLetters = [];
+            renderAnswerPreview();
+        }
+
+        function goToMenuFromLose() {
+            playClick();
+            document.getElementById('lose-overlay').classList.remove('active');
+            goToScreen('screen-home');
+        }
+
+        function resetProgress() {
+            if (confirm('آیا مطمئنی می‌‌خواهی تمام پیشرفت‌ها و ستاره‌های مراحل را صفر کنی؟')) {
+                localStorage.removeItem('wordgame_maxUnlocked');
+                for(let i=0; i<rawWords.length; i++) {
+                    localStorage.removeItem(`wordgame_star_${i}`);
+                }
+                alert('پیشرفت‌ها بازنشانی شدند!');
+                goToScreen('screen-home');
+            }
+        }
+
+        function resetAccount() {
+            if (confirm('آیا مطمئنی می‌خواهی اطلاعات اکانت و سکه‌ها را پاک کنی؟')) {
+                localStorage.removeItem('user_name');
+                localStorage.removeItem('user_class');
+                localStorage.removeItem('wordgame_coins');
+                localStorage.removeItem('wordgame_playtime');
+                userCoins = 0;
+                updateCoinUI();
+                userName = 'علی';
+                userClass = 'نهم ۱';
+                updateAccountUI();
+                alert('اکانت بازنشانی شد!');
+                goToScreen('screen-home');
+            }
         }
 
         function exitGame() {
-            window.close();
-            alert("می‌توانید این تب را ببندید.");
+            if (confirm('می‌خواهی از بازی خارج شوی؟')) {
+                window.close();
+            }
         }
     </script>
 </body>
