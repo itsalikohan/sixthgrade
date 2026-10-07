@@ -31,7 +31,6 @@
             max-width: 480px;
             height: 100%;
             max-height: 900px;
-            /* تغییر پس‌زمینه به همون طیف رنگی تیره و شیک که فرستادی */
             background: linear-gradient(135deg, #0f172a, #1a1b35, #22183b);
             display: flex;
             flex-direction: column;
@@ -152,7 +151,6 @@
 
         .account-btn { background: linear-gradient(135deg, #8b5cf6, #7c3aed); box-shadow: 0 10px 25px rgba(139, 92, 246, 0.35); }
         .settings-btn { background: linear-gradient(135deg, #0ea5e9, #0284c7); box-shadow: 0 10px 25px rgba(14, 165, 233, 0.35); }
-        .herobrine-btn { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35); }
         .coins-shop-btn { background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 10px 25px rgba(245, 158, 11, 0.35); }
         
         .exit-btn { 
@@ -737,7 +735,7 @@
                 </div>
                 <div class="captcha-logo">
                     <div>🤖</div>
-                    <span>reCAPTCHA</span>
+                    <span>تایید هویت</span>
                 </div>
             </div>
         </div>
@@ -749,7 +747,6 @@
             <button class="btn coins-shop-btn" onclick="playClickAndGo('screen-coins')">💰 سکه رایگان</button>
             <button class="btn account-btn" onclick="playClickAndGo('screen-account')">اکانت 👤</button>
             <button class="btn settings-btn" onclick="playClickAndGo('screen-settings')">تنظیمات ⚙️</button>
-            <button class="btn herobrine-btn" onclick="playClickAndOpenHerobrine()">هیروبراین کرفت ⛏️</button>
             <button class="btn exit-btn" onclick="playClickAndExit()">خروج 🚪</button>
         </div>
 
@@ -775,11 +772,45 @@
                 <label>نام و نام خانوادگی:</label>
                 <input type="text" id="user-name-input" placeholder="مثلا: علی">
                 
-                <label>پایه تحصیلی:</label>
+                <label>استان / شهر محل سکونت:</label>
                 <select id="user-class-select">
-                    <option value="نهم ۱">نهم ۱</option>
-                    <option value="نهم ۲">نهم ۲</option>
-                    <option value="ششم ۱">ششم ۱</option>
+                    <option value="تهران">تهران</option>
+                    <option value="مشهد">مشهد</option>
+                    <option value="اصفهان">اصفهان</option>
+                    <option value="شیراز">شیراز</option>
+                    <option value="تبریز">تبریز</option>
+                    <option value="کرج">کرج</option>
+                    <option value="قم">قم</option>
+                    <option value="اهواز">اهواز</option>
+                    <option value="کرمانی">کرمان</option>
+                    <option value="ارومیه">ارومیه</option>
+                    <option value="رشت">رشت</option>
+                    <option value="زاهدان">زاهدان</option>
+                    <option value="همدان">همدان</option>
+                    <option value="کرمانشاه">کرمانشاه</option>
+                    <option value="یزد">یزد</option>
+                    <option value="اردبیل">اردبیل</option>
+                    <option value="بندرعباس">بندرعباس</option>
+                    <option value="اراک">اراک</option>
+                    <option value="زنجان">زنجان</option>
+                    <option value="سنندج">سنندج</option>
+                    <option value="قزوین">قزوین</option>
+                    <option value="خرم‌آباد">خرم‌آباد</option>
+                    <option value="گرگان">گرگان</option>
+                    <option value="ساری">ساری</option>
+                    <option value="بجنورد">بجنورد</option>
+                    <option value="بوشهر">بوشهر</option>
+                    <option value="بیرجند">بیرجند</option>
+                    <option value="ایلام">ایلام</option>
+                    <option value="شهرکرد">شهرکرد</option>
+                    <option value="سمنان">سمنان</option>
+                    <option value="یاسوج">یاسوج</option>
+                    <option value="کاشان">کاشان</option>
+                    <option value="دزفول">دزفول</option>
+                    <option value="آبادان">آبادان</option>
+                    <option value="کیش">کیش</option>
+                    <option value="قشم">قشم</option>
+                    <option value="سایر شهرها">سایر شهرها</option>
                 </select>
 
                 <button class="btn" style="width: 100%; margin-top: 5px; font-size: 1.1rem; padding: 14px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); box-shadow: 0 8px 20px rgba(139,92,246,0.35);" onclick="saveAccountInfo()">ذخیره اطلاعات ✅</button>
@@ -981,11 +1012,6 @@
             goToScreen(screenId);
         }
 
-        function playClickAndOpenHerobrine() {
-            playClick();
-            openHerobrineCraft();
-        }
-
         function playClickAndExit() {
             playClick();
             exitGame();
@@ -1072,17 +1098,13 @@
             playMusicForScreen(screenId);
         }
 
-        function openHerobrineCraft() {
-            window.open('https://itsalikohan.github.io/herobrinecraft/', '_blank');
-        }
-
         let userName = localStorage.getItem('user_name') || 'علی';
-        let userClass = localStorage.getItem('user_class') || 'نهم ۱';
+        let userClass = localStorage.getItem('user_class') || 'تهران';
 
         function updateAccountUI() {
             document.getElementById('user-name-input').value = userName;
             document.getElementById('user-class-select').value = userClass;
-            document.getElementById('profile-display').innerHTML = `<b>${userName}</b><br><span style="color: #c4b5fd;">پایه ${userClass}</span>`;
+            document.getElementById('profile-display').innerHTML = `<b>${userName}</b><br><span style="color: #c4b5fd;">شهر: ${userClass}</span>`;
             document.getElementById('welcome-msg').innerText = `سلام، ${userName} 👋`;
         }
 
@@ -1163,7 +1185,7 @@
         const stagesPerPage = 6;
         
         const rawWords = [
-            "فنجان", "پنیر", "مداد", "موز", "صندلی", "کتاب", "طناب", "قاشق", "ابریشم", "سبد", 
+        "فنجان", "پنیر", "مداد", "موز", "صندلی", "کتاب", "طناب", "قاشق", "ابریشم", "سبد", 
             "جغد", "انگور", "شالگردن", "گیتار", "چتر", "پیاز", "تمبر", "شکلات", "صخره", "نمک", 
             "پازل", "انار", "فرمان", "برنج", "لیوان", "هلو", "نخ", "گردو", "تلسکوپ", "پارچ", 
             "پاکت", "زعفران", "کیف", "جعبه", "عینک", "فلفل", "دکمه", "جو", "مگنت", "کره", 
@@ -3135,7 +3157,7 @@
                 userCoins = 0;
                 updateCoinUI();
                 userName = 'علی';
-                userClass = 'نهم ۱';
+                userClass = 'تهران';
                 updateAccountUI();
                 alert('اکانت بازنشانی شد!');
                 goToScreen('screen-home');
@@ -3143,9 +3165,7 @@
         }
 
         function exitGame() {
-            if (confirm('می‌خواهی از بازی خارج شوی؟')) {
-                window.close();
-            }
+            alert('برای خارج شدن از بازی دکمه Alt + F4 را بزنید.');
         }
     </script>
 </body>
